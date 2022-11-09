@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SellerInformationActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:foregroundGravity="center"
+            android:src="@drawable/userpic" />
+        <LinearLayout
+            android:id="@+id/LL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:layout_below="@id/imageView"
+            android:gravity="center_horizontal">
+            <TextView
+                android:id="@+id/Hey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|right"
+                android:text="Welcome "
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/Sellname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Name"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/LL"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <Button
+                android:id="@+id/Sorders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#77EC79"
+                android:drawableRight="@drawable/orders"
+                android:drawableTint="@color/green"
+                android:gravity="center_vertical"
+                android:text="My Orders"
+                android:textColor="@color/green" />
+
+            <Button
+                android:id="@+id/SInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Sorders"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#77EC79"
+                android:drawableRight="@drawable/useri"
+                android:drawableTint="@color/green"
+                android:gravity="center_vertical"
+                android:text="Personal Info"
+                android:textColor="@color/green" />
+
+            <Button
+                android:id="@+id/Sstb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/SInfo"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#77EC79"
+                android:drawableRight="@drawable/buyer"
+                android:drawableTint="@color/green"
+                android:gravity="center_vertical"
+                android:text="Switch To Buyer"
+                android:textColor="@color/green" />
+
+            <Button
+                android:id="@+id/Slog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Sstb"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#77EC79"
+                android:drawableRight="@drawable/log"
+                android:drawableTint="@color/green"
+                android:gravity="center_vertical"
+                android:text="Log Out"
+                android:textColor="@color/green" />
+
+            <TextView
+                android:id="@+id/SQuote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Slog"
+                android:layout_marginTop="19dp"
+                android:gravity="center"
+                android:text="From little seeds grow mighty trees :)"
+                android:textColor="@color/green"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomnav"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_alignParentBottom="true"
+            app:itemIconTint="@drawable/selector"
+            app:itemTextColor="@drawable/selector"
+            app:menu="@menu/bottomnav" />
+    </RelativeLayout>
+</RelativeLayout>

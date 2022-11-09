@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SellerHomeActivity"
+    android:orientation="vertical"
+    android:weightSum="1">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="24dp"
+        android:background="@color/green"
+        android:gravity="center"
+        android:text="Add Product..."
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/pimage"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="0dp"
+        android:backgroundTint="#77EC79"
+        android:text="Add product"
+        android:textColor="#025A0F"
+        app:cornerRadius="10dp" />
+
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="169dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/Pquantity"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#77EC79"
+        android:text="Choose Image"
+        android:textColor="#025A0F"
+        app:cornerRadius="10dp" />
+
+
+    <Button
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/add"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#77EC79"
+        android:text="View product"
+        android:textColor="#025A0F"
+        app:cornerRadius="10dp"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="554dp" />
+
+    <EditText
+        android:id="@+id/Pname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView7"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="1dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Product Name"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="123dp" />
+
+        <EditText
+        android:id="@+id/Pabout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="1dp"
+        android:layout_below="@id/Pname"
+        android:gravity="center"
+        android:hint="Product Description"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="189dp" />
+
+    <EditText
+        android:id="@+id/Pprice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Product Price"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="1dp"
+        android:layout_below="@id/Pabout"
+        android:gravity="center"
+        android:inputType="number"
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="256dp" />
+
+    <EditText
+        android:id="@+id/Pquantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="1dp"
+        android:gravity="center"
+        android:layout_below="@id/Pprice"
+        android:hint="Product Quantity"
+        android:inputType="number"
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="324dp" />
+
+    <ImageView
+        android:id="@+id/pimage"
+        android:layout_width="117dp"
+        android:layout_height="117dp"
+        android:layout_below="@id/Pquantity"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_toRightOf="@id/upload"
+        tools:layout_editor_absoluteX="272dp"
+        tools:layout_editor_absoluteY="417dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomnav"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@drawable/selector"
+        app:menu="@menu/bottomnav" />
+</RelativeLayout>
+
+
+</LinearLayout>

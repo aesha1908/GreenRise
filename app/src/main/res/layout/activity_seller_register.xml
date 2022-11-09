@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login_reg"
+    tools:context=".SellerRegisterActivity">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="serif"
+        android:text="Create\nAccount"
+        android:textColor="@color/green"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView6"
+        android:layout_marginRight="35dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/logtv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/googlesignin"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/textView5"
+            android:text="Login"
+            android:textColor="#025A0F"
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="253dp"
+            tools:layout_editor_absoluteY="695dp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/googlesignin"
+            android:layout_marginLeft="85dp"
+            android:layout_marginTop="15dp"
+            android:gravity="left"
+            android:text="Already A Member?"
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="94dp"
+            tools:layout_editor_absoluteY="686dp" />
+
+        <EditText
+            android:id="@+id/Phone"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:layout_below="@id/Email"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="289dp" />
+
+        <EditText
+            android:id="@+id/RegPasswd"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:layout_below="@id/Phone"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:hint="Create Password"
+            android:inputType="textPassword"
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="354dp" />
+
+
+        <EditText
+            android:id="@+id/Name"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="30dp"
+            android:ems="10"
+            android:hint="Your Name"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="162dp" />
+
+        <EditText
+            android:id="@+id/Email"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:layout_below="@id/Name"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:hint="Your Email"
+            android:inputType="textEmailAddress"
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="226dp" />
+
+        <EditText
+            android:id="@+id/ConfRegPasswd"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:layout_below="@id/RegPasswd"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="419dp" />
+
+        <EditText
+            android:id="@+id/UPIid"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:layout_below="@id/ConfRegPasswd"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:hint="UPI ID"
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="481dp" />
+
+        <Spinner
+            android:id="@+id/SellerType"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:layout_below="@id/UPIid"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
+            android:prompt="@string/spinner_title"
+            tools:layout_editor_absoluteX="76dp"
+            tools:layout_editor_absoluteY="544dp" />
+
+
+        <Button
+            android:id="@+id/passbtn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/SellerType"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/green"
+            android:backgroundTintMode="add"
+            android:elevation="100dp"
+            android:text="Register"
+            app:cornerRadius="20dp"
+            app:strokeColor="@color/green"
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="600dp" />
+
+        <TextView
+            android:id="@+id/googlesignin"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/passbtn"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/back"
+            android:drawableLeft="@drawable/google"
+            android:drawablePadding="2dp"
+            android:padding="3dp"
+            android:text="Sign up with Google"
+            android:textColor="@color/green"
+            tools:layout_editor_absoluteX="83dp"
+            tools:layout_editor_absoluteY="656dp" />
+    </RelativeLayout>
+</RelativeLayout>

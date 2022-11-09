@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".profileFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:foregroundGravity="center"
+            android:src="@drawable/userpic" />
+
+        <LinearLayout
+            android:id="@+id/LL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageView"
+            android:layout_marginTop="2dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/Hey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|right"
+                android:text="Welcome "
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/Uname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="User Name"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/LL"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <Button
+                android:id="@+id/Uorders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#77EC79"
+                android:drawableRight="@drawable/orders"
+                android:gravity="center_vertical"
+                android:text="My Orders"
+                android:textColor="@color/green" />
+
+            <Button
+                android:id="@+id/Uwish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Uorders"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#77EC79"
+                android:drawableRight="@drawable/wishh"
+                android:gravity="center_vertical"
+                android:text="My WishList"
+                android:textColor="@color/green" />
+
+            <Button
+                android:id="@+id/UInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Uwish"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#77EC79"
+                android:drawableRight="@drawable/useri"
+                android:gravity="center_vertical"
+                android:text="Personal Info"
+                android:textColor="@color/green" />
+
+            <Button
+                android:id="@+id/Usts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/UInfo"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#77EC79"
+                android:drawableRight="@drawable/sellers"
+                android:gravity="center_vertical"
+                android:text="Switch To Seller"
+                android:textColor="@color/green" />
+
+            <Button
+                android:id="@+id/Ulog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Usts"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#77EC79"
+                android:drawableRight="@drawable/log"
+                android:gravity="center_vertical"
+                android:text="Log Out"
+                android:textColor="@color/green" />
+
+            <TextView
+                android:id="@+id/Quote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Ulog"
+                android:layout_marginTop="19dp"
+                android:gravity="center"
+                android:text="From little seeds grow mighty trees :)"
+                android:textColor="@color/green"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

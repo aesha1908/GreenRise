@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login_reg"
+    tools:context=".ForgetPass">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="Reset\nPassword"
+        android:textColor="@color/green"
+        android:textSize="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="120dp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="128dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView6"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/Email"
+            android:layout_width="277dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="100dp"
+            android:ems="10"
+            android:hint="Enter Registered Email"
+            android:inputType="textEmailAddress"
+            tools:layout_editor_absoluteX="67dp"
+            tools:layout_editor_absoluteY="362dp" />
+
+        <Button
+            android:id="@+id/passbtn"
+            android:layout_width="277dp"
+            android:layout_height="54dp"
+            android:layout_below="@id/Email"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="35dp"
+            android:backgroundTint="@color/green"
+            android:backgroundTintMode="add"
+            android:elevation="100dp"
+            android:text="Reset Password"
+            app:cornerRadius="20dp"
+            app:strokeColor="@color/green"
+            tools:layout_editor_absoluteX="67dp"
+            tools:layout_editor_absoluteY="447dp" />
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/passbtn"
+    android:padding="15dp"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/plantquote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="120dp"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:text="Plant your dream and let them grow."
+        android:textColor="#655B5B"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="128dp" />
+
+    <TextView
+        android:id="@+id/plantquote1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/plantquote"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="serif"
+        android:gravity="right"
+        android:text="- Beth Deto"
+        android:textColor="#41AA00"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="128dp" />
+</RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

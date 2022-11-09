@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Greenrise</string>
+    <string name="spinner_title">Seller Type</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_content">See All Your Products</string>
+    <string name="blank"></string>
+    <string name="Profile">Profile</string>
+    <string name="Home">Home</string>
+    <string name="Buy">Buy</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="p1">p1</string>
+    <string name="p2">p2</string>
+    <string name="p3">p3</string>
+    <string name="SeasonsFav">Seasons Favorite</string>
+    <string name="title_activity_forget_pass_user">ForgetPassUser</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="Rs">\u20B9</string>
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_seller_information">SellerInformationActivity</string>
+</resources>
