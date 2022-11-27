@@ -71,8 +71,7 @@ public class SellerInformationActivity extends AppCompatActivity {
                         startActivity(intent1);
                         return true;
                     case R.id.profilei:
-                        Intent intent3 = new Intent(SellerInformationActivity.this,SellerProfileActivity.class);
-                        startActivity(intent3);
+                        return true;
                     case R.id.carti:
                         Intent intent2 = new Intent(SellerInformationActivity.this,SellerOrdersActivity.class);
                         startActivity(intent2);

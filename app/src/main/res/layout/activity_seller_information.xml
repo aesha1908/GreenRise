@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/Slog"
-                android:layout_marginTop="19dp"
+                android:layout_marginTop="50dp"
                 android:gravity="center"
                 android:text="From little seeds grow mighty trees :)"
                 android:textColor="@color/green"

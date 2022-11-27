@@ -3,10 +3,12 @@ package com.example.greenrise_sgp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,11 +58,13 @@ public class checkoutFragment extends Fragment {
   String clientSecret;
   View view1;
     TextView tv;
+    EditText uname,phone,address,city,state;
     String name,unitprice,currentdate,currenttime,totalquantity,totalprice,UUID,SUID,parent,image;
-    String quantityInPlants;
+    Integer quantityInPlants;
     RecyclerView rv;
     myadapter adapter;
     static int i=0;
+    int k=0;
     public checkoutFragment() {
         // Required empty public constructor
     }
@@ -96,6 +100,11 @@ public class checkoutFragment extends Fragment {
         view1=view;
         tv = view.findViewById(R.id.textView);
         TextView tv1 = view.findViewById(R.id.quote);
+        uname = view.findViewById(R.id.editTextTextPersonName);
+        phone = view.findViewById(R.id.editTextPhone);
+        address = view.findViewById(R.id.editTextTextPostalAddress2);
+        city = view.findViewById(R.id.editTextCity);
+        state = view.findViewById(R.id.editTextState);
         FirebaseDatabase db1 = FirebaseDatabase.getInstance();
         DatabaseReference quotes = db1.getReference("Quotes");
         quotes.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -159,7 +168,35 @@ public class checkoutFragment extends Fragment {
             @Override
             public void onClick(View view) {
               //  gotoURL("https://buy.stripe.com/test_28o3fK9a0glTcsEfYZ?default_price="+totalPrice);
-                PaymentFlow();
+                String rname = uname.getText().toString();
+                String rphone = phone.getText().toString();
+                String radd = address.getText().toString();
+                String rcity = city.getText().toString();
+                String rstate = state.getText().toString();
+                if(TextUtils.isEmpty(rname))
+                {
+                    uname.setError("Enter Name");
+                }
+                else if(TextUtils.isEmpty(rphone))
+                {
+                    phone.setError("Enter Phone number");
+                }
+                else if(TextUtils.isEmpty(radd))
+                {
+                    address.setError("Enter Address");
+                }
+                else if(TextUtils.isEmpty(rcity))
+                {
+                    city.setError("Enter City");
+                }
+                else if(TextUtils.isEmpty(rstate))
+                {
+                    state.setError("Enter State");
+                }
+                else {
+                    PaymentFlow();
+                }
+
             }
         });
         return view;
@@ -170,16 +207,19 @@ public class checkoutFragment extends Fragment {
         {
             Toast.makeText(view1.getContext(),"Succesful payment",Toast.LENGTH_SHORT).show();
             tv = view1.findViewById(R.id.textView);
+            AppCompatActivity activity = (AppCompatActivity)view1.getContext();
+            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new HomeFragment()).addToBackStack(null).commit();
             FirebaseDatabase db = FirebaseDatabase.getInstance();
             DatabaseReference orders = db.getReference("Orders");
             DatabaseReference cart =db.getReference("CartPresentUser");
             DatabaseReference cart1 =db.getReference("Cart");
-            DatabaseReference plants =db.getReference("Plants");
+            DatabaseReference plants =db.getReference("Plant");
             cart.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot dataSnapshot:snapshot.getChildren())
                     {
+
                         name=dataSnapshot.child("name").getValue().toString();
                         unitprice=dataSnapshot.child("unitprice").getValue().toString();
                         currentdate=dataSnapshot.child("currentdate").getValue().toString();
@@ -190,15 +230,35 @@ public class checkoutFragment extends Fragment {
                         SUID=dataSnapshot.child("suid").getValue().toString();
                         parent=dataSnapshot.child("parent").getValue().toString();
                         image=dataSnapshot.child("image").getValue().toString();
-                        cartModel cm = new cartModel(name, unitprice, currentdate, currenttime, totalquantity, totalprice,UUID, SUID,parent,image);
-                        orders.child(parent).setValue(cm);
+                        orders.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if( orders.child(parent).child("name").equals(name))
+                                {
+                                    cartModel cm = new cartModel(name, unitprice, currentdate, currenttime, totalquantity, totalprice,UUID, SUID,(parent+i).toString(),image);
+
+                                    orders.child(String.valueOf(parent+i)).setValue(cm);
+                                    i++;
+                                    k=1;
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        if(k==0) {
+                            cartModel cm = new cartModel(name, unitprice, currentdate, currenttime, totalquantity, totalprice,UUID, SUID,parent,image);
+                            orders.child(parent).setValue(cm);
+                        }
                       //  i++;
                         plants.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 HashMap updateq=new HashMap();
-                                quantityInPlants=String.valueOf(Integer.parseInt(snapshot.child("quantity").getValue().toString())+Integer.parseInt(totalquantity));
-                                updateq.put("quantity",quantityInPlants);
+                                quantityInPlants=(Integer.parseInt(snapshot.child(parent).child("quantity").getValue().toString())-Integer.parseInt(totalquantity));
+                                updateq.put("quantity",String.valueOf(quantityInPlants));
                                 plants.child(parent).updateChildren(updateq);
                             }
 

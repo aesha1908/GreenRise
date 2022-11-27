@@ -100,7 +100,7 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant,PlantAdapter.myV
             public void onClick(View view) {
                 final DialogPlus dialogPlus = DialogPlus.newDialog(holder.imagev.getContext())
                         .setContentHolder(new ViewHolder(R.layout.plantupdate))
-                        .setExpanded(true,2305)
+                        .setExpanded(true,2050)
                         .create();
 
                 View v = dialogPlus.getHolderView();
@@ -109,12 +109,14 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant,PlantAdapter.myV
                 EditText etabout = v.findViewById(R.id.upabout);
                 EditText etprice = v.findViewById(R.id.upprice);
                 EditText etquantity = v.findViewById(R.id.upquantity);
+                ImageView imgv = v.findViewById(R.id.previmage);
                 Button up = v.findViewById(R.id.update);
 
                 etname.setText(model.getName());
                 etabout.setText(model.getAbout());
                 etprice.setText(String.valueOf(model.getPrice()));
                 etquantity.setText(String.valueOf(model.getQuantity()));
+                Glide.with(holder.imagev.getContext()).load(model.getImage()).into(imgv);
                 dialogPlus.show();
 
                 up.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +194,7 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant,PlantAdapter.myV
 
     public class myViewHolder extends RecyclerView.ViewHolder {
         TextView namev,aboutv,pricev,quantv;
-        ImageView imagev,updatebtn,delbtn;
+        ImageView imagev,updatebtn,delbtn,previmg;
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             namev = itemView.findViewById(R.id.plantname);
@@ -202,6 +204,7 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant,PlantAdapter.myV
             imagev = itemView.findViewById(R.id.plantimage);
             updatebtn = itemView.findViewById(R.id.updatelogo);
             delbtn = itemView.findViewById(R.id.deletelogo);
+            previmg = itemView.findViewById(R.id.previmage);
         }
     }
 }

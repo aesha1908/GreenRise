@@ -21,8 +21,8 @@
     <Button
         android:id="@+id/update"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_below="@id/upimage"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/previmage"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:backgroundTint="#77EC79"
@@ -164,7 +164,7 @@
         tools:layout_editor_absoluteY="324dp" />
 
     <ImageView
-        android:id="@+id/upimage"
+        android:id="@+id/previmage"
         android:layout_width="117dp"
         android:layout_height="117dp"
         android:layout_below="@id/upquantity"
