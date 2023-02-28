@@ -12,7 +12,7 @@
         android:id="@+id/RLMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="35dp"
+        android:padding="25dp"
         >
         <ImageView
             android:id="@+id/imagegholder"
@@ -95,15 +95,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/RLMain"
-        android:padding="20dp">
+        >
 
         <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/green"
             android:backgroundTint="#77EC79"
             android:text="Add to cart"
+            android:textColor="@color/green"
             app:cornerRadius="10dp" />
 
         <Button

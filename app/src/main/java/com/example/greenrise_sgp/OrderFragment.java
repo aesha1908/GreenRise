@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,14 +54,14 @@ public class OrderFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_order, container, false);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference order = db.getReference("Orders");
-        DatabaseReference orderForPresentUser = db.getReference("OrderPresentUser");
+        DatabaseReference order = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Orders");
+        DatabaseReference orderForPresentUser =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("OrderPresentUser");
         order.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
                 {
-                    if(dataSnapshot.child("uuid").getValue().toString().equals(uniqueUser.getEmail())) {
+                    if(dataSnapshot.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                         String name = dataSnapshot.child("name").getValue().toString();
                         String unitprice = dataSnapshot.child("unitprice").getValue().toString();
                         String currentdate = dataSnapshot.child("currentdate").getValue().toString();
@@ -87,7 +88,7 @@ public class OrderFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         FirebaseRecyclerOptions<cartModel> options =
                 new FirebaseRecyclerOptions.Builder<cartModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("OrderPresentUser"),cartModel.class)
+                        .setQuery( FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("OrderPresentUser"),cartModel.class)
                         .build();
         adapter=new UserOrderAdapter(options);
         rv.setAdapter(adapter);

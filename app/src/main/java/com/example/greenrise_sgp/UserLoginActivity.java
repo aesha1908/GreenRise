@@ -162,8 +162,7 @@ public class UserLoginActivity extends AppCompatActivity {
                                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                uniqueUser u =new uniqueUser(email);
-                                                CurrentUser.currentUser = snapshot.getValue(User.class);
+
                                               //  FirebaseDatabase db = FirebaseDatabase.getInstance();
 //                                                DatabaseReference cart = db.getReference("CartPresentUser");
 //                                                DatabaseReference wish = db.getReference("WishlistPresentUser");

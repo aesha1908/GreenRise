@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -210,10 +211,10 @@ public class checkoutFragment extends Fragment {
             AppCompatActivity activity = (AppCompatActivity)view1.getContext();
             activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new HomeFragment()).addToBackStack(null).commit();
             FirebaseDatabase db = FirebaseDatabase.getInstance();
-            DatabaseReference orders = db.getReference("Orders");
-            DatabaseReference cart =db.getReference("CartPresentUser");
-            DatabaseReference cart1 =db.getReference("Cart");
-            DatabaseReference plants =db.getReference("Plant");
+            DatabaseReference orders =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Orders");
+            DatabaseReference cart = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("CartPresentUser");
+            DatabaseReference cart1 = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
+            DatabaseReference plants = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Plant");
             cart.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

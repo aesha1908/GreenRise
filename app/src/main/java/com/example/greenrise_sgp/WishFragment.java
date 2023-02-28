@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,14 +54,14 @@ public class WishFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_order, container, false);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference wishlist = db.getReference("Wishlist");
-        DatabaseReference wishlistForPresentUser = db.getReference("WishlistPresentUser");
+        DatabaseReference wishlist =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishList");
+        DatabaseReference wishlistForPresentUser =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishListPresentUser");
         wishlist.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
                 {
-                    if(dataSnapshot.child("uuid").getValue().toString().equals(uniqueUser.getEmail())) {
+                    if(dataSnapshot.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                         String name = dataSnapshot.child("name").getValue().toString();
                         String unitprice = dataSnapshot.child("unitprice").getValue().toString();
                         String currentdate = dataSnapshot.child("currentdate").getValue().toString();
@@ -85,7 +86,7 @@ public class WishFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         FirebaseRecyclerOptions<wishModel> options =
                 new FirebaseRecyclerOptions.Builder<wishModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("WishlistPresentUser"),wishModel.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishList"),wishModel.class)
                         .build();
         adapter=new UserWishAdapter(options);
         rv.setAdapter(adapter);

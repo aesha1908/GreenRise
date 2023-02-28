@@ -114,13 +114,13 @@ public class descFragmant extends Fragment {
                 final String t = String.valueOf(currentDate.format(Calendar.getInstance().getTime()));
                 final String d = String.valueOf(currentTime.format(Calendar.getInstance().getTime()));
                 FirebaseDatabase db = FirebaseDatabase.getInstance();
-                DatabaseReference cart = db.getReference("Cart");
+                DatabaseReference cart = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
                 cart.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                          //   Log.i("The_C", s);
-                            if (snapshot1.child("name").getValue().toString().equals(name)&&snapshot1.child("uuid").getValue().toString().equals(uniqueUser.getEmail())) {
+                            if (snapshot1.child("name").getValue().toString().equals(name)&&snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                 k=1;
                                 String  s = snapshot1.child("totalquantity").getValue().toString();
                                 if(Integer.parseInt(s)==Integer.parseInt(quantity))
@@ -139,7 +139,7 @@ public class descFragmant extends Fragment {
                         }
                      //   System.out.println(k);
                         if (k==0) {
-                            cartModel cm = new cartModel(name, price, t, d, "1", price,uniqueUser.getEmail(),String.valueOf(1),parent,image);
+                            cartModel cm = new cartModel(name, price, t, d, "1", price,FirebaseAuth.getInstance().getCurrentUser().getUid(),String.valueOf(1),parent,image);
                             cart.child(parent).setValue(cm);
                             i++;
                         }
@@ -190,14 +190,14 @@ public class descFragmant extends Fragment {
                 final String t = String.valueOf(currentDate.format(Calendar.getInstance().getTime()));
                 final String d = String.valueOf(currentTime.format(Calendar.getInstance().getTime()));
                 FirebaseDatabase db = FirebaseDatabase.getInstance();
-                DatabaseReference wishlist = db.getReference("Wishlist");
+                DatabaseReference wishlist =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishList");
                 wishlist.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         m=0;
                         for(DataSnapshot snapshot1:snapshot.getChildren())
                         {
-                            if(snapshot1.child("name").getValue().toString().equals(name)&&snapshot1.child("uuid").equals(uniqueUser.getEmail()))
+                            if(snapshot1.child("name").getValue().toString().equals(name)&&snapshot1.child("uuid").equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
                             {
                                 m=1;
                             }
@@ -210,7 +210,7 @@ public class descFragmant extends Fragment {
                     }
                 });
                 if(m==0) {
-                    wishModel wm = new wishModel(name, price, t, d, uniqueUser.getEmail(), String.valueOf(1), parent, image);
+                    wishModel wm = new wishModel(name, price, t, d,FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(1), parent, image);
                     wishlist.child(parent).setValue(wm);
                     h++;
                 }
