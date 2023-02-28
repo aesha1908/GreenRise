@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Greenrise_SGP"
         tools:targetApi="31">
         <activity
+            android:name=".AskActivity"
+            android:exported="false" />
+        <activity
             android:name=".SellerInformationActivity"
             android:exported="false"
             android:label="@string/title_activity_seller_information"
@@ -27,13 +30,13 @@
             android:label="@string/title_activity_forget_pass_user"
             android:theme="@style/Theme.Greenrise_SGP.NoActionBar" />
         <activity
-            android:noHistory="true"
             android:name=".UserLoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
-            android:noHistory="true"
             android:name=".UserRegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
             android:name=".homePage"
             android:exported="false" />
@@ -53,17 +56,17 @@
             android:name=".SellerHomeActivity"
             android:exported="false" />
         <activity
-            android:noHistory="true"
             android:name=".SellerLoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
-            android:noHistory="true"
             android:name=".SellerRegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
-            android:noHistory="true"
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

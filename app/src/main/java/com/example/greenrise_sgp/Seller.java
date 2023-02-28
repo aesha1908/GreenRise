@@ -4,12 +4,13 @@ import android.widget.Spinner;
 
 public class Seller {
 
-    public String name,email,phone,pass,confpass,selltype,upiid;
+    public String uid,name,email,phone,pass,confpass,selltype,upiid;
 
     public Seller() {
     }
 
-    public Seller(String name, String email, String phone, String pass, String confpass, String selltype,String upiid) {
+    public Seller(String uid,String name, String email, String phone, String pass, String confpass, String selltype,String upiid) {
+        this.uid = uid;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -17,6 +18,14 @@ public class Seller {
         this.confpass = confpass;
         this.selltype = selltype;
         this.upiid = upiid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {

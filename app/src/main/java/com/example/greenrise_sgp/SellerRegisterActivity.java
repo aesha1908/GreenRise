@@ -33,7 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
-public class SellerRegisterActivity extends AppCompatActivity {
+public class    SellerRegisterActivity extends AppCompatActivity {
     EditText name_var, email_var, phone_var, pass_var, confpass_var,upiid_var;
     TextView log, google_signin;
     Button regbutton;
@@ -136,7 +136,6 @@ public class SellerRegisterActivity extends AppCompatActivity {
         pass_var = findViewById(R.id.RegPasswd);
         confpass_var = findViewById(R.id.ConfRegPasswd);
         upiid_var = findViewById(R.id.UPIid);
-
         String name = name_var.getText().toString();
         String email = email_var.getText().toString();
         String phone = phone_var.getText().toString();
@@ -176,9 +175,10 @@ public class SellerRegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Seller seller = new Seller(name, email, phone, pass, confpass, selltype,upiid);
+                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                Seller seller = new Seller(uid,name, email, phone, pass, confpass, selltype,upiid);
                                 FirebaseDatabase.getInstance().getReference("Sellers")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .child(uid)
                                         .setValue(seller).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

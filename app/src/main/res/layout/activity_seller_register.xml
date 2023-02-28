@@ -107,6 +107,7 @@
             tools:layout_editor_absoluteX="73dp"
             tools:layout_editor_absoluteY="226dp" />
 
+
         <EditText
             android:id="@+id/ConfRegPasswd"
             android:layout_width="250dp"

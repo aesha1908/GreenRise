@@ -25,16 +25,6 @@
             android:layout_marginTop="2dp"
             android:layout_below="@id/imageView"
             android:gravity="center_horizontal">
-            <TextView
-                android:id="@+id/Hey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|right"
-                android:text="Welcome "
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                />
 
             <TextView
                 android:id="@+id/Sellname"
