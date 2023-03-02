@@ -139,8 +139,8 @@ public class descFragmant extends Fragment {
                         }
                      //   System.out.println(k);
                         if (k==0) {
-                            cartModel cm = new cartModel(name, price, t, d, "1", price,FirebaseAuth.getInstance().getCurrentUser().getUid(),String.valueOf(1),parent,image);
-                            cart.child(parent).setValue(cm);
+                            cartModel cm = new cartModel(name, price, t, d, "1", price,FirebaseAuth.getInstance().getCurrentUser().getUid(),String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid(),image);
+                            cart.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(cm);
                             i++;
                         }
 
@@ -210,8 +210,8 @@ public class descFragmant extends Fragment {
                     }
                 });
                 if(m==0) {
-                    wishModel wm = new wishModel(name, price, t, d,FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(1), parent, image);
-                    wishlist.child(parent).setValue(wm);
+                    wishModel wm = new wishModel(name, price, t, d,FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid(), image);
+                    wishlist.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(wm);
                     h++;
                 }
                 }

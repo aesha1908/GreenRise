@@ -55,7 +55,6 @@ public class WishFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_order, container, false);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference wishlist =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishList");
-        DatabaseReference wishlistForPresentUser =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishListPresentUser");
         wishlist.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -71,7 +70,7 @@ public class WishFragment extends Fragment {
                         String parent = dataSnapshot.child("parent").getValue().toString();
                         String image = dataSnapshot.child("image").getValue().toString();
                         wishModel wm = new wishModel(name, unitprice, currentdate, currenttime, UUID, SUID,parent, image);
-                        wishlistForPresentUser.child(String.valueOf(parent)).setValue(wm);
+                        wishlist.child(String.valueOf(parent)).setValue(wm);
                     }
 
                 }

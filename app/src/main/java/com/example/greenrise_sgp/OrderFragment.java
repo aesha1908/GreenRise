@@ -54,41 +54,12 @@ public class OrderFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_order, container, false);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference order = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Orders");
-        DatabaseReference orderForPresentUser =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("OrderPresentUser");
-        order.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren())
-                {
-                    if(dataSnapshot.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                        String name = dataSnapshot.child("name").getValue().toString();
-                        String unitprice = dataSnapshot.child("unitprice").getValue().toString();
-                        String currentdate = dataSnapshot.child("currentdate").getValue().toString();
-                        String currenttime = dataSnapshot.child("currenttime").getValue().toString();
-                        String totalquantity = dataSnapshot.child("totalquantity").getValue().toString();
-                        String totalprice = dataSnapshot.child("totalprice").getValue().toString();
-                        String UUID = dataSnapshot.child("uuid").getValue().toString();
-                        String SUID = dataSnapshot.child("suid").getValue().toString();
-                        String parent = dataSnapshot.child("parent").getValue().toString();
-                        String image = dataSnapshot.child("image").getValue().toString();
-                        cartModel cm = new cartModel(name, unitprice, currentdate, currenttime, totalquantity, totalprice, UUID, SUID,parent, image);
-                        orderForPresentUser.child(String.valueOf(parent)).setValue(cm);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        DatabaseReference order = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Order");
         rv=(RecyclerView) view.findViewById(R.id.conView);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         FirebaseRecyclerOptions<cartModel> options =
                 new FirebaseRecyclerOptions.Builder<cartModel>()
-                        .setQuery( FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("OrderPresentUser"),cartModel.class)
+                        .setQuery( FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Order"),cartModel.class)
                         .build();
         adapter=new UserOrderAdapter(options);
         rv.setAdapter(adapter);

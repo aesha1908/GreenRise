@@ -39,7 +39,6 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
             Glide.with(holder.img1.getContext()).load(model.getImage()).into(holder.img1);
             FirebaseDatabase db = FirebaseDatabase.getInstance();
             DatabaseReference cart =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
-        DatabaseReference cart1 =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("CartPresentUser");
             holder.imgb1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -55,8 +54,6 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
                                     updateq.put("totalquantity",String.valueOf(q));
                                     updateq.put("totalprice",String.valueOf(Integer.parseInt(up) * q));
                                     cart.child(snapshot1.child("parent").getValue().toString()).updateChildren(updateq);
-                                    if(snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
-                                    cart1.child(snapshot1.child("parent").getValue().toString()).updateChildren(updateq);
                                 }
                             }
                         }
@@ -77,14 +74,20 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
                             for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                                 String s = snapshot1.child("totalquantity").getValue().toString();
                                 int q = Integer.parseInt(s) - 1;
+                                if(q==0)
+                                {
+                                    cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
+                                    break;
+
+                                }
+
                                 String up = snapshot1.child("unitprice").getValue().toString();
                                 if (snapshot1.child("name").getValue().toString().equals(holder.nametext.getText())&&snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                     HashMap updateq = new HashMap();
                                     updateq.put("totalquantity",String.valueOf(q));
                                     updateq.put("totalprice",String.valueOf(Integer.parseInt(up) * q));
                                     cart.child(snapshot1.child("parent").getValue().toString()).updateChildren(updateq);
-                                    if(snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
-                                        cart1.child(snapshot1.child("parent").getValue().toString()).updateChildren(updateq);
+
                                 }
                             }
                         }
@@ -105,8 +108,6 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
                             for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                                 if (snapshot1.child("name").getValue().toString().equals(holder.nametext.getText())&&snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                     cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
-                                    if(snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
-                                        cart1.child(snapshot1.child("parent").getValue().toString()).removeValue();
                                 }
                             }
                         }

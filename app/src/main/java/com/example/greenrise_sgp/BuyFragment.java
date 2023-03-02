@@ -36,47 +36,18 @@ public class BuyFragment<paymentsClient> extends Fragment{
         btn = view.findViewById(R.id.button2);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference cart =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
-        DatabaseReference cartForPresentUser =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("CartPresentUser");
-        cart.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren())
-                {
-                    if(dataSnapshot.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                        String name = dataSnapshot.child("name").getValue().toString();
-                        String unitprice = dataSnapshot.child("unitprice").getValue().toString();
-                        String currentdate = dataSnapshot.child("currentdate").getValue().toString();
-                        String currenttime = dataSnapshot.child("currenttime").getValue().toString();
-                        String totalquantity = dataSnapshot.child("totalquantity").getValue().toString();
-                        String totalprice = dataSnapshot.child("totalprice").getValue().toString();
-                        String UUID = dataSnapshot.child("uuid").getValue().toString();
-                        String SUID = dataSnapshot.child("suid").getValue().toString();
-                        String parent = dataSnapshot.child("parent").getValue().toString();
-                        String image = dataSnapshot.child("image").getValue().toString();
-                        cartModel cm = new cartModel(name, unitprice, currentdate, currenttime, totalquantity, totalprice, UUID, SUID,parent, image);
-                        cartForPresentUser.child(parent).setValue(cm);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         rv=(RecyclerView) view.findViewById(R.id.conView);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         FirebaseRecyclerOptions<cartModel> options =
                 new FirebaseRecyclerOptions.Builder<cartModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("CartPresentUser"),cartModel.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart"),cartModel.class)
                         .build();
         adapter=new cartAdapter(options);
         rv.setAdapter(adapter);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cartForPresentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                cart.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         tP=0;
