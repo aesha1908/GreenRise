@@ -92,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#77EC79"
+            android:layout_below="@id/textView"
             android:text="pay"
             android:textColor="@color/green"
             app:cornerRadius="10dp"
