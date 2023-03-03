@@ -66,6 +66,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
@@ -75,7 +76,6 @@ public class PlantAdapter extends FirebaseRecyclerAdapter<Plant,PlantAdapter.myV
     public PlantAdapter(@NonNull FirebaseRecyclerOptions<Plant> options) {
         super(options);
     }
-
 
     @NonNull
     @Override

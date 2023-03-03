@@ -151,8 +151,19 @@ public class SellerHomeActivity extends AppCompatActivity {
         viewp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SellerHomeActivity.this,PlantListActivity.class);
-                startActivity(intent);
+                DBQuery.loadPlants(new MyCompleteListner() {
+                    @Override
+                    public void onSuccess() {
+                        Intent intent = new Intent(SellerHomeActivity.this,PlantListActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(SellerHomeActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
         reference.addValueEventListener(new ValueEventListener() {

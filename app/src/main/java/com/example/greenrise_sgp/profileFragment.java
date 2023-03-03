@@ -51,7 +51,6 @@ public class profileFragment extends Fragment {
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity)view.getContext();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new OrderFragment()).addToBackStack(null).commit();
-
             }
         });
         infouser.setOnClickListener(new View.OnClickListener() {

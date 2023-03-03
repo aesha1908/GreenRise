@@ -22,4 +22,5 @@
     <style name="Theme.Greenrise_SGP.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Greenrise_SGP.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

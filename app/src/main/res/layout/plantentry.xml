@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="15dp"
     android:layout_margin="16dp"
-    app:cardElevation="15dp"
+    app:cardElevation="20dp"
+    android:background="?android:attr/selectableItemBackground"
     >
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="10dp">
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
         <ImageView
             android:id="@+id/plantimage"
             android:layout_width="95dp"
@@ -20,10 +25,15 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/background"
             android:elevation="5dp"
+            android:layout_marginLeft="15dp"
             android:outlineSpotShadowColor="@color/black"
             android:scaleType="centerCrop"
             android:src="@drawable/googlelogo" />
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
         <TextView
             android:id="@+id/plantname"
             android:layout_width="wrap_content"
@@ -54,48 +64,20 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/plantprice1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/plantabout"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toRightOf="@id/plantimage"
-            android:text="Rs."
-            android:textColor="@color/green"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/plantprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/plantabout"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toRightOf="@id/plantprice1"
-            android:text="XXX"
-            android:textColor="@color/green"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/plantquantity1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/plantprice"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_toRightOf="@id/plantimage"
-            android:text="In stock: "
-            android:textColor="@color/black"
+            android:text="XXX"
+            android:textColor="@color/green"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -103,22 +85,26 @@
             android:id="@+id/plantquantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/plantprice1"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_toRightOf="@id/plantquantity1"
             android:text="XXX"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold" />
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
         <ImageView
             android:id="@+id/updatelogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/plantquantity1"
-            android:layout_marginLeft="75dp"
+            android:layout_below="@id/plantquantity"
+
             android:layout_toRightOf="@id/plantimage"
             android:src="@drawable/ic_baseline_create_24"
             app:tint="@color/green" />
@@ -127,12 +113,15 @@
             android:id="@+id/deletelogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/plantquantity1"
+            android:layout_below="@id/plantquantity"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/updatelogo"
             android:src="@drawable/ic_baseline_delete_forever_24"
             app:tint="@color/green" />
-    </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
 
