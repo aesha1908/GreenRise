@@ -70,10 +70,22 @@ public class profileFragment extends Fragment {
             }
         });
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference cart =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("CartPresentUser");
-        DatabaseReference wish =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishlistPresentUser");
-        DatabaseReference order =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("OrderPresentUser");
-        name.setText(CurrentUser.currentUser.getName());
+        DatabaseReference cart =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
+        DatabaseReference wish =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Wishlist");
+        DatabaseReference order =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Order");
+        DatabaseReference user=db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                name.setText(snapshot.child("name").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

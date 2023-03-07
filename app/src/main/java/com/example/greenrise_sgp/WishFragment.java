@@ -55,32 +55,6 @@ public class WishFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_order, container, false);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference wishlist =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishList");
-        wishlist.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren())
-                {
-                    if(dataSnapshot.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                        String name = dataSnapshot.child("name").getValue().toString();
-                        String unitprice = dataSnapshot.child("unitprice").getValue().toString();
-                        String currentdate = dataSnapshot.child("currentdate").getValue().toString();
-                        String currenttime = dataSnapshot.child("currenttime").getValue().toString();
-                        String UUID = dataSnapshot.child("uuid").getValue().toString();
-                        String SUID = dataSnapshot.child("suid").getValue().toString();
-                        String parent = dataSnapshot.child("parent").getValue().toString();
-                        String image = dataSnapshot.child("image").getValue().toString();
-                        wishModel wm = new wishModel(name, unitprice, currentdate, currenttime, UUID, SUID,parent, image);
-                        wishlist.child(String.valueOf(parent)).setValue(wm);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         rv=(RecyclerView) view.findViewById(R.id.conView);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         FirebaseRecyclerOptions<wishModel> options =
