@@ -14,4 +14,6 @@
     <color name="light_green">#90ee90</color>
     <color name="black_overlay">#66000000</color>
     <color name="green">#025A0F</color>
+    <color name="lgreen">#77EC79</color>
+    <color name="grey">#D8D8D8</color>
 </resources>

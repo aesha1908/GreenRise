@@ -6,8 +6,11 @@
     app:cardCornerRadius="15dp"
     android:layout_margin="16dp"
     app:cardElevation="20dp"
-    android:background="?android:attr/selectableItemBackground"
     >
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,6 +125,7 @@
         </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </RelativeLayout>
 
 

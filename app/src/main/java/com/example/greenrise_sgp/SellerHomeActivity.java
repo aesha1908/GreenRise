@@ -155,6 +155,7 @@ public class SellerHomeActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         Intent intent = new Intent(SellerHomeActivity.this,PlantListActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
 

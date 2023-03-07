@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 public class SellerProfileActivity extends AppCompatActivity {
     TextView name,email,type,upi,contact;
     BottomNavigationView bnv;
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,14 +34,38 @@ public class SellerProfileActivity extends AppCompatActivity {
         FirebaseDatabase database;
         DatabaseReference databaseReference;
         bnv = findViewById(R.id.bottomnav);
+        mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Sellers");
-        name.setText(CurrentSeller.currentSeller.getName());
-        email.setText(CurrentSeller.currentSeller.getEmail());
-        type.setText(CurrentSeller.currentSeller.getSelltype());
-        contact.setText(CurrentSeller.currentSeller.getPhone());
-        upi.setText(CurrentSeller.currentSeller.getUpiid());
-        bnv.setSelectedItemId(R.id.profilei);
+        database = FirebaseDatabase.getInstance();
+        String uid = mAuth.getCurrentUser().getUid();
+        databaseReference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Seller seller = snapshot.getValue(Seller.class);
+                if(seller!=null)
+                {
+                    String cname = seller.name;
+                    String cemail = seller.email;
+                    String cphone = seller.phone;
+                    String ctype = seller.selltype;
+                    String cupi = seller.upiid;
+                    name.setText(cname);
+                    email.setText(cemail);
+                    contact.setText(cphone);
+                    type.setText(ctype);
+                    upi.setText(cupi);
+                }
+                else {
+                    Toast.makeText(SellerProfileActivity.this, "Try Again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -58,6 +84,6 @@ public class SellerProfileActivity extends AppCompatActivity {
                 }
                 return false;
             }
-        });
-    }
+    });
+}
 }
