@@ -11,16 +11,16 @@
         android:id="@+id/imagelogo"
         android:layout_width="150dp"
         android:layout_height="70dp"
-        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         app:srcCompat="@drawable/logopic" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/imagelogo"
-        android:layout_marginTop="25dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
         android:layout_marginRight="10dp"
         android:background="@color/grey"
         app:cardCornerRadius="10dp">
@@ -165,8 +165,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/upload"
@@ -235,6 +235,4 @@
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:menu="@menu/bottomnav" />
-
-
 </RelativeLayout>

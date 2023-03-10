@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -42,8 +43,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SellerHomeActivity extends AppCompatActivity {
-    Button addp,viewp,up;
-    EditText name,about,price,quantity;
+    Button addp, viewp, up;
+    EditText name, about, price, quantity;
     Plant plant;
     BottomNavigationView bnv;
     StorageReference storageReference;
@@ -53,6 +54,8 @@ public class SellerHomeActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     ImageView imageView;
     Uri FilePathUri;
+    Drawable drawable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +69,31 @@ public class SellerHomeActivity extends AppCompatActivity {
         quantity = findViewById(R.id.Pquantity);
         imageView = findViewById(R.id.pimage);
         bnv = findViewById(R.id.bottomnav);
+        drawable = getDrawable(R.drawable.borderr);
+        name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                name.setBackground(drawable);
+            }
+        });
+        about.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                about.setBackground(drawable);
+            }
+        });
+        price.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                price.setBackground(drawable);
+            }
+        });
+        quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                quantity.setBackground(drawable);
+            }
+        });
         storageReference = FirebaseStorage.getInstance().getReference("Images");
         reference = FirebaseDatabase.getInstance().getReference("Plant");
         progressDialog = new ProgressDialog(SellerHomeActivity.this);
@@ -74,16 +102,15 @@ public class SellerHomeActivity extends AppCompatActivity {
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId())
-                {
+                switch (item.getItemId()) {
                     case R.id.homei:
                         return true;
                     case R.id.profilei:
-                        Intent intent1 = new Intent(SellerHomeActivity.this,SellerInformationActivity.class);
+                        Intent intent1 = new Intent(SellerHomeActivity.this, SellerInformationActivity.class);
                         startActivity(intent1);
                         return true;
                     case R.id.carti:
-                        Intent intent2 = new Intent(SellerHomeActivity.this,SellerOrdersActivity.class);
+                        Intent intent2 = new Intent(SellerHomeActivity.this, SellerOrdersActivity.class);
                         startActivity(intent2);
                         return true;
                 }
@@ -96,28 +123,24 @@ public class SellerHomeActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"Select Image"),Image_Request_Code);
+                startActivityForResult(Intent.createChooser(intent, "Select Image"), Image_Request_Code);
             }
         });
         addp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Upload();
-                if(FilePathUri!=null){
-                    //String key = reference.child("Plants").push().getKey();
+                if (FilePathUri != null) {
                     String Name = name.getText().toString().trim();
                     String About = about.getText().toString().trim();
                     String Price = price.getText().toString().trim();
                     String Quantity = quantity.getText().toString().trim();
-
-                    if(Name.isEmpty() || About.isEmpty()){
+                    if (Name.isEmpty() || About.isEmpty() || Price.isEmpty() || Quantity.isEmpty()) {
                         Toast.makeText(SellerHomeActivity.this, "All the fields are required", Toast.LENGTH_LONG).show();
-                    }
-                    else{
+                    } else {
                         progressDialog.setTitle("Uploading...");
                         progressDialog.setMessage("Please wait while we upload the data");
                         progressDialog.show();
-                        StorageReference str = storageReference.child(System.currentTimeMillis()+"."+GetFileExtension(FilePathUri));
+                        StorageReference str = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
                         str.putFile(FilePathUri)
                                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
@@ -128,10 +151,7 @@ public class SellerHomeActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Uri uri) {
                                                 String ImageUploadId = reference.push().getKey();
-                                                // String Key = ImageUploadId;
-                                                // plant = new Plant(Name,About,Price,Quantity,uri.toString(),ImageUploadId, ServerValue.TIMESTAMP);
-                                                plant = new Plant(Name,About,Price,Quantity,uri.toString(),ImageUploadId);
-                                                // reference.child(String.valueOf(maxid+1)).setValue(plant);
+                                                plant = new Plant(Name, About, Price, Quantity, uri.toString(), ImageUploadId);
                                                 reference.child(ImageUploadId).setValue(plant);
                                                 Intent intent = new Intent(SellerHomeActivity.this, SellerHomeActivity.class);
                                                 startActivity(intent);
@@ -142,8 +162,7 @@ public class SellerHomeActivity extends AppCompatActivity {
                                 });
                     }
 
-                }
-                else {
+                } else {
                     Toast.makeText(SellerHomeActivity.this, "Please select image", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -154,7 +173,7 @@ public class SellerHomeActivity extends AppCompatActivity {
                 DBQuery.loadPlants(new MyCompleteListner() {
                     @Override
                     public void onSuccess() {
-                        Intent intent = new Intent(SellerHomeActivity.this,PlantListActivity.class);
+                        Intent intent = new Intent(SellerHomeActivity.this, PlantListActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
@@ -170,7 +189,7 @@ public class SellerHomeActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+                if (snapshot.exists()) {
                     maxid = snapshot.getChildrenCount();
                 }
             }
@@ -181,24 +200,21 @@ public class SellerHomeActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==Image_Request_Code && resultCode==RESULT_OK && data!=null && data.getData()!=null){
+        if (requestCode == Image_Request_Code && resultCode == RESULT_OK && data != null && data.getData() != null) {
             FilePathUri = data.getData();
             imageView.setImageURI(FilePathUri);
         }
     }
+
     public String GetFileExtension(Uri uri) {
 
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri)) ;
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
 
     }
-
-//    private void Upload() {
-//
-//    }
-
 }

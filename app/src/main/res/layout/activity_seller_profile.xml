@@ -4,64 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SellerProfileActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".SellerProfileActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/dark_blue"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"></androidx.appcompat.widget.Toolbar>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="6dp">
 
-
-        <TextView
-            android:id="@+id/UserInfo"
-            android:layout_width="match_parent"
-            android:layout_height="113dp"
-            android:layout_marginBottom="1dp"
-            android:gravity="center"
-            android:text="My Information"
-            android:textColor="@color/black"
-            android:textSize="25dp"
-            android:textStyle="bold" />
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
-            android:src="@drawable/userpic"
-            android:layout_below="@id/UserInfo"/>
+            android:src="@drawable/userpic" />
+
+        <TextView
+            android:id="@+id/Sname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageView"
+            android:drawableTint="@color/green"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="Name "
+            android:textColor="@color/green"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/div"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/Sname"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/grey" />
 
         <RelativeLayout
+            android:id="@+id/relative"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/UserInfo"
-            android:gravity="center_vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/Sname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/name"
-                android:drawableTint="@color/green"
-                android:gravity="center"
-                android:text="Name "
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Sname"
+            android:gravity="center"
+            android:layout_marginTop="55dp"
+            android:padding="6dp">
 
             <TextView
                 android:id="@+id/SEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/Sname"
-                android:layout_marginTop="10dp"
+                android:fontFamily="serif"
+                android:layout_marginTop="25dp"
                 android:drawableLeft="@drawable/mail"
                 android:drawableTint="@color/green"
                 android:gravity="center"
-                android:text="Email "
+                android:text="Email"
                 android:textColor="@color/black"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                />
 
             <TextView
                 android:id="@+id/SContact"
@@ -72,10 +80,10 @@
                 android:drawableLeft="@drawable/phone"
                 android:drawableTint="@color/green"
                 android:gravity="center"
+                android:fontFamily="serif"
                 android:text="Phone"
                 android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/Selltype"
@@ -88,7 +96,7 @@
                 android:text="Seller Type"
                 android:textColor="@color/black"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:fontFamily="serif" />
 
             <TextView
                 android:id="@+id/UPI"
@@ -101,15 +109,44 @@
                 android:text="UPI ID"
                 android:textColor="@color/black"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:fontFamily="serif" />
+
+            <TextView
+                android:id="@+id/ord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/UPI"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/orderrr"
+                android:gravity="center"
+                android:text="Total Orders"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:fontFamily="serif" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/relative"
+            android:padding="6dp">
+
+            <View
+                android:id="@+id/div2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/grey" />
 
             <TextView
                 android:id="@+id/SQuote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/UPI"
                 android:layout_marginTop="49dp"
                 android:gravity="center"
+                android:fontFamily="cursive"
                 android:text="From little seeds grow mighty trees :)"
                 android:textColor="@color/green"
                 android:textSize="20dp"
