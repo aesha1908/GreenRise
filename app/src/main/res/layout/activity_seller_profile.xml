@@ -11,8 +11,8 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/dark_blue"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"></androidx.appcompat.widget.Toolbar>
+        android:background="#ABF7B1"
+        android:theme="@style/ThemeOverlay.AppCompat" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -118,11 +118,11 @@
                 android:layout_below="@id/UPI"
                 android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/orderrr"
+                android:fontFamily="serif"
                 android:gravity="center"
                 android:text="Total Orders"
                 android:textColor="@color/black"
-                android:textSize="20dp"
-                android:fontFamily="serif" />
+                android:textSize="20dp" />
 
         </RelativeLayout>
 

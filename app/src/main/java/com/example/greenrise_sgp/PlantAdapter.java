@@ -45,11 +45,8 @@ import java.util.List;
 public class PlantAdapter extends BaseAdapter {
     Context context;
     List<Plant> list;
-    ImageView newimg;
-    Button change;
     int IMAGE_REQUEST_CODE = 7;
     Uri uri;
-    CoordinatorLayout coordinatorLayout;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference reference = firebaseDatabase.getReference("Plant");
 
@@ -98,7 +95,6 @@ public class PlantAdapter extends BaseAdapter {
         quantity = myvie.findViewById(R.id.plantquantity);
         up = myvie.findViewById(R.id.updatelogo);
         del = myvie.findViewById(R.id.deletelogo);
-        coordinatorLayout = myvie.findViewById(R.id.rl);
         Glide.with(iv.getContext()).load(list.get(i).getImage()).into(iv);
         name.setText(list.get(i).getName());
         desc.setText(list.get(i).getAbout());

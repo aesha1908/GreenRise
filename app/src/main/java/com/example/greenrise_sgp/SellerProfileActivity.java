@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,7 @@ public class SellerProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Profile");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(Color.BLACK);
         FirebaseDatabase database;
         DatabaseReference databaseReference, dref;
         bnv = findViewById(R.id.bottomnav);
@@ -48,28 +50,11 @@ public class SellerProfileActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Sellers");
         dref = database.getReference("Users");
-
-        dref.addChildEventListener(new ChildEventListener() {
+        dref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                int count = 0;
-                count = count + 1;
-                String c = String.valueOf(count);
-                total.setText(c);
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int size = (int) snapshot.getChildrenCount();
+                total.setText(size+" Orders");
             }
 
             @Override
@@ -125,4 +110,12 @@ public class SellerProfileActivity extends AppCompatActivity {
             }
     });
 }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()== android.R.id.home)
+        {
+            SellerProfileActivity.this.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

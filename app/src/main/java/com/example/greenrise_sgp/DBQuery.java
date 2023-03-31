@@ -17,6 +17,10 @@ public class DBQuery {
     public static FirebaseDatabase g_db;
     public static DatabaseReference g_dbref;
     public static List<Plant> p_list = new ArrayList<>();
+    public static List<Flower> f_list = new ArrayList<>();
+    public static List<Fertilizer> fe_list = new ArrayList<>();
+    public static List<Pebble> pe_list = new ArrayList<>();
+    public static List<Pots> po_list = new ArrayList<>();
     public static int g_selectedcatindex = 0;
     public static void loadPlants(MyCompleteListner myCompleteListner)
     {
@@ -32,6 +36,108 @@ public class DBQuery {
                         p_list.add(plant);
                     }
                     catch(DatabaseException e){
+                        //Log the exception and the key
+                        dataSnapshot.getKey();
+                    }
+                    myCompleteListner.onSuccess();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                myCompleteListner.onFailure();
+            }
+        });
+    }
+    public static void loadFlowers(MyCompleteListner myCompleteListner){
+        f_list.clear();
+        g_db = FirebaseDatabase.getInstance();
+        g_dbref = g_db.getReference("Flowers");
+        g_dbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    try{
+                        Flower plant = dataSnapshot.getValue(Flower.class);
+                        f_list.add(plant);
+                    }
+                    catch(DatabaseException e){
+                        //Log the exception and the key
+                        dataSnapshot.getKey();
+                    }
+                    myCompleteListner.onSuccess();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                myCompleteListner.onFailure();
+            }
+        });
+    }
+    public static void loadFertilizers(MyCompleteListner myCompleteListner){
+        fe_list.clear();
+        g_db = FirebaseDatabase.getInstance();
+        g_dbref = g_db.getReference("Fertilizers");
+        g_dbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    try{
+                        Fertilizer plant = dataSnapshot.getValue(Fertilizer.class);
+                        fe_list.add(plant);
+                    }
+                    catch(DatabaseException e){
+                        //Log the exception and the key
+                        dataSnapshot.getKey();
+                    }
+                    myCompleteListner.onSuccess();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                myCompleteListner.onFailure();
+            }
+        });
+    }
+    public static void loadPebbles(MyCompleteListner myCompleteListner) {
+        pe_list.clear();
+        g_db = FirebaseDatabase.getInstance();
+        g_dbref = g_db.getReference("Pebbles");
+        g_dbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    try {
+                        Pebble plant = dataSnapshot.getValue(Pebble.class);
+                        pe_list.add(plant);
+                    } catch (DatabaseException e) {
+                        //Log the exception and the key
+                        dataSnapshot.getKey();
+                    }
+                    myCompleteListner.onSuccess();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                myCompleteListner.onFailure();
+            }
+        });
+    }
+    public static void loadPots(MyCompleteListner myCompleteListner) {
+        po_list.clear();
+        g_db = FirebaseDatabase.getInstance();
+        g_dbref = g_db.getReference("Pots");
+        g_dbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    try {
+                        Pots plant = dataSnapshot.getValue(Pots.class);
+                        po_list.add(plant);
+                    } catch (DatabaseException e) {
                         //Log the exception and the key
                         dataSnapshot.getKey();
                     }

@@ -1,28 +1,46 @@
 package com.example.greenrise_sgp;
 
+import android.content.ClipData;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
+import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.greenrise_sgp.databinding.ActivityHomePageBinding;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.resources.TextAppearance;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    String email;
-
     private String mParam1;
     private String mParam2;
-    RecyclerView rv;
-    myadapter adapter;
-
+    private String[] titles ={"Plants","Fertilizers","Flowers","Pots","Pebbles"};
+    ActivityHomePageBinding binding;
     public HomeFragment() {
 
     }
@@ -50,25 +68,55 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home,container,false);
-        rv=(RecyclerView) view.findViewById(R.id.recView);
-        rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        FirebaseRecyclerOptions<Model> options =
-                new FirebaseRecyclerOptions.Builder<Model>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Plant"), Model.class)
-                        .build();
-       adapter=new myadapter(options);
-       rv.setAdapter(adapter);
+        ImageSlider is=(ImageSlider) view.findViewById(R.id.imageSlider);
+        TabLayout navTab=(TabLayout) view.findViewById(R.id.upnavigatortab);
+        ViewPager2 vpager=(ViewPager2) view.findViewById(R.id.view_pager2);
+        SearchView search =(SearchView) view.findViewById(R.id.searchView);
+        search.clearFocus();
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        pageAdapater pa;
+        pa=new pageAdapater(getActivity());
+        vpager.setAdapter(pa);
+        new TabLayoutMediator(navTab,vpager,((tab, position) -> tab.setText(titles[position]))).attach();
+        final List<SlideModel> images  = new ArrayList<>();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference imagesSlider=db.getReference().child("Plant");
+        imagesSlider.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1:snapshot.getChildren())
+                {
+                    images.add(new SlideModel(snapshot1.child("image").getValue().toString(),snapshot1.child("name").getValue().toString(), ScaleTypes.FIT));
+                }
+                is.setImageList(images, ScaleTypes.CENTER_INSIDE);
+                is.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onItemSelected(int i) {
+                        Toast.makeText(view.getContext(),images.get(i).getTitle().toString(),Toast.LENGTH_LONG ).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         return view;
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        adapter.stopListening();
-    }
+
+
+
 
 }

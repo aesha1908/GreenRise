@@ -1,6 +1,7 @@
 package com.example.greenrise_sgp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +11,14 @@ import android.widget.ImageView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class AskActivity extends AppCompatActivity {
-    ImageView ivbuy,ivsell;
+    CardView ivbuy,ivsell;
     FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask);
-        ivbuy = findViewById(R.id.imageViewbuy);
-        ivsell = findViewById(R.id.imageViewsell);
+        ivbuy = findViewById(R.id.buycv);
+        ivsell = findViewById(R.id.sellcv);
         mAuth = FirebaseAuth.getInstance();
         ivbuy.setOnClickListener(new View.OnClickListener() {
             @Override

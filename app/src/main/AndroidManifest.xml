@@ -17,6 +17,30 @@
         android:theme="@style/Theme.Greenrise_SGP"
         tools:targetApi="31">
         <activity
+            android:name=".RegOTPActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PotsListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PebblesListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FertilizerListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FlowerListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PhoneActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OTPActivity"
+            android:exported="false" />
+        <activity
             android:name=".AskActivity"
             android:exported="false" />
         <activity

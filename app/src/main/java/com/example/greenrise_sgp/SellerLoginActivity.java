@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.greenrise_sgp.databinding.ActivitySellerLoginBinding;
+import com.example.greenrise_sgp.databinding.ActivitySellerRegisterBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -21,39 +23,45 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hbb20.CountryCodePicker;
+
+import java.util.concurrent.TimeUnit;
 
 public class SellerLoginActivity extends AppCompatActivity {
     EditText email_login, pass_login;
     Button loginbtn;
-    TextView reg, forpass, google_login;
+    TextView reg, forpass, otp;
     FirebaseAuth mAuth;
-    FirebaseUser mUser;
-    GoogleSignInClient googleSignInClient;
     ProgressDialog progressDialog;
-    private static final int RC_SIGN_IN = 1;
-    private static final String TAG = "GOOGLEAUTH";
-
+    ActivitySellerLoginBinding binding;
+    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
+    CountryCodePicker ccp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seller_login);
+        binding = ActivitySellerLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         email_login = findViewById(R.id.LoginEmail);
         pass_login = findViewById(R.id.LoginPasswd);
         loginbtn = findViewById(R.id.loginbtn);
-        google_login = findViewById(R.id.googlesignin);
         progressDialog = new ProgressDialog(this);
         reg = findViewById(R.id.regtv);
         mAuth = FirebaseAuth.getInstance();
         forpass = findViewById(R.id.forgotpass);
+        ccp = findViewById(R.id.ccplog);
         forpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,11 +69,26 @@ public class SellerLoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.otplogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendotp();
+            }
+        });
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                authenticate_user();
-
+                if(binding.LoginEmail.getText().toString().isEmpty())
+                {
+                    binding.LoginEmail.setError("Enter valid email or phone number");
+                }
+                if(binding.LoginEmail.getText().toString().contains("@"))
+                {
+                    authenticate_user();
+                }
+                else{
+                    sendotp();
+                }
             }
         });
         reg.setOnClickListener(new View.OnClickListener() {
@@ -75,56 +98,39 @@ public class SellerLoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        googleSignInClient = GoogleSignIn.getClient(this,gso);
-        google_login.setOnClickListener(new View.OnClickListener() {
+    }
+
+    public void sendotp() {
+        mCallback = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
             @Override
-            public void onClick(View view) {
-                SignIn();
-            }
-        });
-    }
-    private void SignIn() {
-        Intent intent = googleSignInClient.getSignInIntent();
-        startActivityForResult(intent, RC_SIGN_IN);
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                Log.w(TAG, "Google sign in failed", e);
+            public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
 
             }
-        }
-    }
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent i = new Intent(SellerLoginActivity.this, SellerHomeActivity.class);
-                            startActivity(i);
-                            finish();
-                        } else {
-                            Toast.makeText(SellerLoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+
+            @Override
+            public void onVerificationFailed(@NonNull FirebaseException e) {
+                binding.loginbtn.setVisibility(View.VISIBLE);
+                Toast.makeText(SellerLoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCodeSent(@NonNull String verificationId,
+                                   @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                Intent intent = new Intent(SellerLoginActivity.this, OTPActivity.class);
+                intent.putExtra("phone", binding.LoginEmail.getText().toString().trim());
+                intent.putExtra("verificationId", verificationId);
+                startActivity(intent);
+            }
+        };
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber("+91" + binding.LoginEmail.getText().toString().trim())       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallback)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
     private void authenticate_user() {
@@ -132,23 +138,20 @@ public class SellerLoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Wait while we authenticate...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-
-
         String email = email_login.getText().toString();
         String pass = pass_login.getText().toString();
 
-        if(TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             email_login.setError("Email is required!");
-        }
-        else if(TextUtils.isEmpty(pass)){
+        } else if (TextUtils.isEmpty(pass)) {
             pass_login.setError("Password is required!");
-        }
-        else{
+        } else {
             mAuth.signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                progressDialog.dismiss();
                                 FirebaseDatabase.getInstance().getReference("Sellers")
                                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                         .addListenerForSingleValueEvent(new ValueEventListener() {
