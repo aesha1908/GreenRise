@@ -1,6 +1,10 @@
 package com.example.greenrise_sgp;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,9 +26,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 
 public class profileFragment extends Fragment {
-    Button switchtoseller,orderuser,wishlistuser,infouser,logout;
+    Button switchtoseller,orderuser,wishlistuser,infouser,logout,language;
     TextView name;
     ImageView uimage;
 
@@ -30,12 +38,14 @@ public class profileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        loadLocale();
         switchtoseller=view.findViewById(R.id.Usts);
         orderuser = view.findViewById(R.id.Uorders);
         wishlistuser = view.findViewById(R.id.Uwish);
         infouser = view.findViewById(R.id.UInfo);
         logout = view.findViewById(R.id.Ulog);
         name = view.findViewById(R.id.Uname);
+        language=view.findViewById(R.id.languageChanger);
         uimage = view.findViewById(R.id.imageView);
         FirebaseDatabase firebaseDatabase;
         DatabaseReference databaseReference;
@@ -69,6 +79,12 @@ public class profileFragment extends Fragment {
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new WishFragment()).addToBackStack(null).commit();
             }
         });
+        language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changelanguage();
+            }
+        });
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference cart =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
         DatabaseReference wish =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Wishlist");
@@ -94,7 +110,7 @@ public class profileFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot snapshot1:snapshot.getChildren())
                         {
-                                cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
+                            cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
                         }
                     }
 
@@ -138,5 +154,53 @@ public class profileFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void changelanguage() {
+        final String languages[]={"English","Guajarti","Bengali"};
+        AlertDialog.Builder mBuilder=new AlertDialog.Builder(getContext());
+        mBuilder.setTitle("Choose language");
+        mBuilder.setSingleChoiceItems(languages, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(i==0)
+                {
+                    setLocale("");
+                    getActivity().recreate();
+                }
+                else if(i==1)
+                {
+                    setLocale("gu");
+                    getActivity().recreate();
+                }
+                else if(i==2)
+                {
+                    setLocale("hi");
+                    getActivity().recreate();
+                }
+
+
+            }
+        });
+        mBuilder.create();
+        mBuilder.show();
+
+    }
+
+    private void setLocale(String s) {
+        Locale locale = new Locale(s);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.setLocale(locale);
+        getActivity().getBaseContext().getResources().updateConfiguration(configuration,getActivity().getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
+        editor.putString("app_lang",s);
+        editor.apply();
+    }
+    private  void loadLocale()
+    {
+        SharedPreferences preferences = getActivity().getSharedPreferences("Settings",Context.MODE_PRIVATE);
+        String language=preferences.getString("app_lang","");
+        setLocale(language);
     }
 }

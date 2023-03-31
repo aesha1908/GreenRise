@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,6 +52,8 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.singlerowdesign,parent,false);
         return new myViewHolder(view);
     }
+
+
 
     public class myViewHolder extends RecyclerView.ViewHolder
     {

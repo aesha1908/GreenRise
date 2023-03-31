@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -78,6 +79,21 @@ public class PlantHomeFragment extends Fragment {
         rv.setAdapter(adapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(), 2);
         rv.setLayoutManager(gridLayoutManager);
+        ImageView iv = view.findViewById(R.id.filter);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseRecyclerOptions<Model> options =
+                        new FirebaseRecyclerOptions.Builder<Model>()
+                                .setQuery(FirebaseDatabase.getInstance().getReference("Plant").orderByChild("unitprice"),Model.class)
+                                .build();
+                adapter=new myadapter(options);
+                adapter.startListening();
+                rv.setAdapter(adapter);
+
+
+            }
+        });
         return view;
     }
     @Override

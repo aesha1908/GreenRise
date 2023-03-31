@@ -1,5 +1,6 @@
 package com.example.greenrise_sgp;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -37,12 +38,10 @@ public class descFragmant extends Fragment {
     String about,image,name,price,quantity,parent;
     SimpleDateFormat currentTime;
     SimpleDateFormat currentDate;
- //     int quantityincart;
+    //     int quantityincart;
     private static final  String h1="THE_C";
     int k;
     int m=0;
-    static int i=1;
-    static int h=1;
     public descFragmant() {
 
     }
@@ -119,8 +118,7 @@ public class descFragmant extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                         //   Log.i("The_C", s);
-                            if (snapshot1.child("name").getValue().toString().equals(name)&&snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                            if (snapshot1.child("name").getValue().toString().equals(name)&&snapshot1.child("parent").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()+snapshot1.child("name").getValue().toString())) {
                                 k=1;
                                 String  s = snapshot1.child("totalquantity").getValue().toString();
                                 if(Integer.parseInt(s)==Integer.parseInt(quantity))
@@ -130,18 +128,15 @@ public class descFragmant extends Fragment {
                                 }
                                 int q=Integer.parseInt(s)+1;
                                 String up=snapshot1.child("unitprice").getValue().toString();
-                         //       Log.i("The_C", "h1");
                                 HashMap updateq=new HashMap();
                                 updateq.put("totalquantity",String.valueOf(q));
                                 updateq.put("totalprice",String.valueOf(Integer.parseInt(up)*q));
                                 cart.child(snapshot1.child("parent").getValue().toString()).updateChildren(updateq);
                             }
                         }
-                     //   System.out.println(k);
                         if (k==0) {
-                            cartModel cm = new cartModel(name, price, t, d, "1", price,FirebaseAuth.getInstance().getCurrentUser().getUid(),String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid(),image);
-                            cart.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(cm);
-                            i++;
+                            cartModel cm = new cartModel(name, price, t, d, "1", price,FirebaseAuth.getInstance().getCurrentUser().getUid(),String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid()+name,image);
+                            cart.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+name).setValue(cm);
                         }
 
                         btn.setEnabled(true);
@@ -152,6 +147,8 @@ public class descFragmant extends Fragment {
 
                     }
                 });
+
+
 
             }
         });
@@ -197,7 +194,7 @@ public class descFragmant extends Fragment {
                         m=0;
                         for(DataSnapshot snapshot1:snapshot.getChildren())
                         {
-                            if(snapshot1.child("name").getValue().toString().equals(name)&&snapshot1.child("uuid").equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                            if(snapshot1.child("name").getValue().toString().equals(name)&&snapshot1.child("parent").equals(FirebaseAuth.getInstance().getCurrentUser().getUid()+snapshot1.child("name").getValue().toString()))
                             {
                                 m=1;
                             }
@@ -210,11 +207,10 @@ public class descFragmant extends Fragment {
                     }
                 });
                 if(m==0) {
-                    wishModel wm = new wishModel(name, price, t, d,FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid(), image);
-                    wishlist.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(wm);
-                    h++;
+                    wishModel wm = new wishModel(name, price, t, d,FirebaseAuth.getInstance().getCurrentUser().getUid()+name, String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid()+name, image);
+                    wishlist.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+name).setValue(wm);
                 }
-                }
+            }
 
         });
 

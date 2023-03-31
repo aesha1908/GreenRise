@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|right"
-                android:text="Welcome "
+                android:text="@string/hey"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -102,10 +102,22 @@
                 android:textColor="@color/green" />
 
             <Button
-                android:id="@+id/Ulog"
+                android:id="@+id/languageChanger"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/Usts"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#77EC79"
+                android:drawableRight="@drawable/sellers"
+                android:gravity="center_vertical"
+                android:text="@string/languageChanger"
+                android:textColor="@color/green" />
+
+            <Button
+                android:id="@+id/Ulog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/languageChanger"
                 android:layout_marginTop="5dp"
                 android:backgroundTint="#77EC79"
                 android:drawableRight="@drawable/log"
