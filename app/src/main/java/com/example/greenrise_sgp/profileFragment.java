@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -19,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,10 +33,10 @@ import java.util.Locale;
 
 
 public class profileFragment extends Fragment {
-    Button switchtoseller,orderuser,wishlistuser,infouser,logout,language;
+    Button switchtoseller,orderuser,wishlistuser,infouser,logout,language,pass;
     TextView name;
     ImageView uimage;
-
+    FirebaseAuth mAuth;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,10 +48,17 @@ public class profileFragment extends Fragment {
         infouser = view.findViewById(R.id.UInfo);
         logout = view.findViewById(R.id.Ulog);
         name = view.findViewById(R.id.Uname);
-        language=view.findViewById(R.id.languageChanger);
+        language=view.findViewById(R.id.languagechanger);
+        pass = view.findViewById(R.id.Uchpw);
         uimage = view.findViewById(R.id.imageView);
-        FirebaseDatabase firebaseDatabase;
-        DatabaseReference databaseReference;
+        mAuth = FirebaseAuth.getInstance();
+        pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ForgetPassUser.class);
+                startActivity(intent);
+            }
+        });
         switchtoseller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

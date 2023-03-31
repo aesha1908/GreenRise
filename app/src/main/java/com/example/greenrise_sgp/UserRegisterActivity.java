@@ -22,35 +22,42 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.concurrent.TimeUnit;
 
 public class UserRegisterActivity extends AppCompatActivity {
     EditText name_var, email_var, phone_var, pass_var, confpass_var;
-    TextView log, google_signin;
+    TextView log;
     Button regbutton;
     ProgressDialog progressDialog;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-    GoogleSignInClient googleSignInClient;
-    private static final int RC_SIGN_IN = 1;
-    private static final String TAG = "GOOGLEAUTH";
-    int maxid = 0;
+    public static String name, email, phone, pass, confpass;
+    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
-        google_signin = findViewById(R.id.Usergooglesignin);
+        name_var = findViewById(R.id.UserName);
+        email_var = findViewById(R.id.UserEmail);
+        phone_var = findViewById(R.id.UserPhone);
+        pass_var = findViewById(R.id.UserRegPasswd);
+        confpass_var = findViewById(R.id.UserConfRegPasswd);
         log = findViewById(R.id.Userlogtv);
         regbutton = findViewById(R.id.Userpassbtn);
         progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,119 +68,61 @@ public class UserRegisterActivity extends AppCompatActivity {
         regbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                performAuthentication();
+                name = name_var.getText().toString();
+                email = email_var.getText().toString();
+                phone = phone_var.getText().toString();
+                pass = pass_var.getText().toString();
+                confpass = confpass_var.getText().toString();
+                if (TextUtils.isEmpty(name)) {
+                    name_var.setError("Name is required!");
+                } else if (TextUtils.isEmpty(email)) {
+                    email_var.setError("Enter Proper Email!");
+                } else if (TextUtils.isEmpty(phone) || phone.length() != 10) {
+                    phone_var.setError("Enter 10 digit phone number!");
+                } else if (TextUtils.isEmpty(pass) || pass.length() < 6) {
+                    pass_var.setError("Create strong password!");
+                } else if (TextUtils.isEmpty(confpass) || !confpass.matches(pass)) {
+                    confpass_var.setError("Passwords do not match!");
+                }
+                else{
+                    sendotp();
+                }
+
             }
 
         });
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        googleSignInClient = GoogleSignIn.getClient(this,gso);
-        google_signin.setOnClickListener(new View.OnClickListener() {
+    }
+    public void sendotp() {
+        mCallback = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
             @Override
-            public void onClick(View view) {
-                SignIn();
-            }
-        });
-    }
-
-    private void performAuthentication() {
-        name_var = findViewById(R.id.UserName);
-        email_var = findViewById(R.id.UserEmail);
-        phone_var = findViewById(R.id.UserPhone);
-        pass_var = findViewById(R.id.UserRegPasswd);
-        confpass_var = findViewById(R.id.UserConfRegPasswd);
-
-        String name = name_var.getText().toString();
-        String email = email_var.getText().toString();
-        String phone = phone_var.getText().toString();
-        String pass = pass_var.getText().toString();
-        String confpass = confpass_var.getText().toString();
-        if(TextUtils.isEmpty(name)){
-            name_var.setError("Name is required!");
-        }
-        else if(TextUtils.isEmpty(email)){
-            email_var.setError("Enter Proper Email!");
-        }
-        else if(TextUtils.isEmpty(phone) || phone.length()!=10){
-            phone_var.setError("Enter 10 digit phone number!");
-        }
-        else if(TextUtils.isEmpty(pass) || pass.length()<6){
-            pass_var.setError("Create strong password!");
-        }
-        else if(TextUtils.isEmpty(confpass) || !confpass.matches(pass)){
-            confpass_var.setError("Passwords do not match!");
-        }
-        else{
-            progressDialog.setTitle("Registration...");
-            progressDialog.setMessage("Wait while we register your data...");
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.show();
-
-            mAuth.createUserWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                User user = new User(uid,name, email, phone, pass, confpass);
-                                FirebaseDatabase.getInstance().getReference("Users")
-                                        .child(uid)
-                                        .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                Intent intent = new Intent(UserRegisterActivity.this, UserLoginActivity.class);
-                                                startActivity(intent);
-                                            }
-                                        });
-                            } else {
-                                Toast.makeText(UserRegisterActivity.this, "Error: "+task.getException(), Toast.LENGTH_SHORT).show();
-                                progressDialog.dismiss();
-                            }
-                        }
-                    });
-        }
-    }
-
-    private void SignIn() {
-        Intent intent = googleSignInClient.getSignInIntent();
-        startActivityForResult(intent, RC_SIGN_IN);
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                Log.w(TAG, "Google sign in failed", e);
+            public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
 
             }
-        }
-    }
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent i = new Intent(UserRegisterActivity.this, homePage.class);
-                            startActivity(i);
-                            finish();
-                        } else {
-                            Toast.makeText(UserRegisterActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+
+            @Override
+            public void onVerificationFailed(@NonNull FirebaseException e) {
+                regbutton.setVisibility(View.VISIBLE);
+                Toast.makeText(UserRegisterActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCodeSent(@NonNull String verificationId,
+                                   @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                Intent intent = new Intent(UserRegisterActivity.this, UserRegOTPActivity.class);
+                intent.putExtra("phone", phone_var.getText().toString().trim());
+                intent.putExtra("verificationId", verificationId);
+                startActivity(intent);
+            }
+
+        };
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber("+91" + phone_var.getText().toString().trim())       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallback)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 }
