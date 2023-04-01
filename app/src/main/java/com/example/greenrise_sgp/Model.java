@@ -1,14 +1,14 @@
 package com.example.greenrise_sgp;
 
 public class Model {
-    String about,image,name,price,quantity,key;
-
+    String about,image,name,quantity,key;
+    int price;
     public Model() {
     }
 
 
 
-    public Model(String about, String image, String name, String price, String quantity, String key) {
+    public Model(String about, String image, String name, int price, String quantity, String key) {
         this.about = about;
         this.image = image;
         this.name = name;
@@ -48,11 +48,11 @@ public class Model {
         this.name = name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -6,4 +6,5 @@
         android:id="@+id/chip3"
         android:icon="@drawable/port"
         android:title="@string/Buy"></item>
+    <item android:id="@+id/chip4" android:icon="@drawable/tv" android:title="Guides"></item>
 </menu>

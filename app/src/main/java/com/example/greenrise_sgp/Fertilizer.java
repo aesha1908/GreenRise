@@ -3,7 +3,7 @@ package com.example.greenrise_sgp;
 public class Fertilizer {
     private String name;
     private String about;
-    private String price;
+    private int price;
     private String quantity;
     private String image;
     private String key;
@@ -13,7 +13,7 @@ public class Fertilizer {
 
 
 
-    public Fertilizer(String name, String about, String price, String quantity, String image, String key) {
+    public Fertilizer(String name, String about, int price, String quantity, String image, String key) {
         this.name = name;
         this.about = about;
         this.price = price;
@@ -39,11 +39,11 @@ public class Fertilizer {
         this.about = about;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

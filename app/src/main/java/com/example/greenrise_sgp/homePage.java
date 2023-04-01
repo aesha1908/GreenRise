@@ -16,9 +16,6 @@ public class homePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        getSupportActionBar().hide();
         binding=ActivityHomePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         replaceFragment(new HomeFragment());
@@ -34,17 +31,20 @@ public class homePage extends AppCompatActivity {
                 case R.id.chip3:
                     replaceFragment(new BuyFragment());
                     break;
+                case R.id.chip4:
+                    replaceFragment(new VideoFragment());
+                    break;
             }
 
             return true;
         });
 
     }
-private void replaceFragment(Fragment fragment)
-{
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-    fragmentTransaction.replace(R.id.frameLayout,fragment);
-    fragmentTransaction.commit();
-}
+    private void replaceFragment(Fragment fragment)
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout,fragment);
+        fragmentTransaction.commit();
+    }
 }

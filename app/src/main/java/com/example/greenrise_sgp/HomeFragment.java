@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.adapters.ViewPagerAdapter;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
@@ -37,6 +38,7 @@ public class HomeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
     private String mParam1;
     private String mParam2;
     private String[] titles ={"Plants","Fertilizers","Flowers","Pots","Pebbles"};
@@ -90,15 +92,15 @@ public class HomeFragment extends Fragment {
         new TabLayoutMediator(navTab,vpager,((tab, position) -> tab.setText(titles[position]))).attach();
         final List<SlideModel> images  = new ArrayList<>();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference imagesSlider=db.getReference().child("Plant");
+        DatabaseReference imagesSlider=db.getReference().child("Offers");
         imagesSlider.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshot1:snapshot.getChildren())
                 {
-                    images.add(new SlideModel(snapshot1.child("image").getValue().toString(),snapshot1.child("name").getValue().toString(), ScaleTypes.FIT));
+                    images.add(new SlideModel(snapshot1.child("offer").getValue().toString(),snapshot1.child("name").getValue().toString(), ScaleTypes.FIT));
                 }
-                is.setImageList(images, ScaleTypes.CENTER_INSIDE);
+                is.setImageList(images,ScaleTypes.CENTER_INSIDE);
                 is.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onItemSelected(int i) {

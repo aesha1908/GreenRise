@@ -61,8 +61,8 @@ public class checkoutFragment extends Fragment {
   View view1;
     TextView tv,tv1;
     EditText uname,phone,address,city,state;
-    String name,unitprice,currentdate,currenttime,totalquantity,totalprice,UUID,SUID,parent,image;
-    Integer quantityInPlants;
+    String name,currentdate,currenttime,totalquantity,totalprice,UUID,SUID,parent,image;
+    Integer quantityInPlants,unitprice;
     RecyclerView rv;
     myadapter adapter;
     static int i=0;
@@ -220,7 +220,7 @@ public class checkoutFragment extends Fragment {
                     {
 
                         name=dataSnapshot.child("name").getValue().toString();
-                        unitprice=dataSnapshot.child("unitprice").getValue().toString();
+                        unitprice=Integer.parseInt(dataSnapshot.child("unitprice").getValue().toString());
                         currentdate=dataSnapshot.child("currentdate").getValue().toString();
                         currenttime=dataSnapshot.child("currenttime").getValue().toString();
                         totalquantity=dataSnapshot.child("totalquantity").getValue().toString();

@@ -37,13 +37,11 @@ public class UserWishAdapter extends FirebaseRecyclerAdapter<wishModel,UserWishA
     @Override
     protected void onBindViewHolder(@NonNull UserWishAdapter.myViewHolder holder, int position, @NonNull wishModel model) {
         holder.nametext.setText(model.getName());
-        holder.price.setText(model.getUnitprice());
+        holder.price.setText(String.valueOf(model.getUnitprice()));
         Glide.with(holder.img1.getContext()).load(model.getImage()).into(holder.img1);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference wishList = db.getReference("Wishlist");
-        DatabaseReference wishList1 = db.getReference("WishlistPresentUser");
-        DatabaseReference cart = db.getReference("Cart");
-        DatabaseReference cart1 = db.getReference("CartPresentUser");
+        DatabaseReference wishList = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishList");
+        DatabaseReference cart =db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
         holder.b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,17 +54,13 @@ public class UserWishAdapter extends FirebaseRecyclerAdapter<wishModel,UserWishA
                             String s = snapshot1.child("totalquantity").getValue().toString();
                             int q = Integer.parseInt(s) + 1;
                             String up = snapshot1.child("unitprice").getValue().toString();
-                            if(snapshot1.child("name").getValue().toString().equals(holder.nametext.getText())&&snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                            if(snapshot1.child("name").getValue().toString().equals(holder.nametext.getText())&&snapshot1.child("parent").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()+snapshot1.child("name").getValue().toString()))
                             {
                                 HashMap updateq = new HashMap();
                                 updateq.put("totalquantity",String.valueOf(q));
                                 updateq.put("totalprice",String.valueOf(Integer.parseInt(up) * q));
                                 cart.child(snapshot1.child("parent").getValue().toString()).updateChildren(updateq);
-                                if(snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                    cart1.child(snapshot1.child("parent").getValue().toString()).updateChildren(updateq);
-                                    wishList.child(snapshot1.child("parent").getValue().toString()).removeValue();
-                                    wishList1.child(snapshot1.child("parent").getValue().toString()).removeValue();
-                                }
+                                wishList.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+holder.nametext.getText().toString()).removeValue();
                                 k=1;
                             }
                         }
@@ -76,10 +70,9 @@ public class UserWishAdapter extends FirebaseRecyclerAdapter<wishModel,UserWishA
                             currentTime = new SimpleDateFormat("HH:mm:ss");
                             final String t = String.valueOf(currentDate.format(Calendar.getInstance().getTime()));
                             final String d = String.valueOf(currentTime.format(Calendar.getInstance().getTime()));
-                            cartModel cm = new cartModel(holder.nametext.getText().toString(),holder.price.getText().toString(), t, d, "1", holder.price.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid(),String.valueOf(1), String.valueOf(i),holder.img1.toString());
-                            cart.child(String.valueOf(i)).setValue(cm);
-                            wishList.child(String.valueOf(i)).removeValue();
-                            wishList1.child(String.valueOf(i)).removeValue();
+                            cartModel cm = new cartModel(holder.nametext.getText().toString(),Integer.parseInt(holder.price.getText().toString()), t, d, "1", holder.price.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid(),String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid()+holder.nametext.getText().toString(),holder.img1.toString());
+                            cart.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+holder.nametext.getText().toString()).setValue(cm);
+                            wishList.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+holder.nametext.getText().toString()).removeValue();
                             i++;
                         }
                     }
@@ -100,10 +93,9 @@ public class UserWishAdapter extends FirebaseRecyclerAdapter<wishModel,UserWishA
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot snapshot1:snapshot.getChildren())
                         {
-                            if(snapshot1.child("name").getValue().toString().equals(holder.nametext.getText().toString())&&snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                            if(snapshot1.child("name").getValue().toString().equals(holder.nametext.getText().toString())&&snapshot1.child("parent").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()+snapshot1.child("name").getValue().toString()))
                             {
                                 wishList.child(snapshot1.child("parent").getValue().toString()).removeValue();
-                                wishList1.child(snapshot1.child("parent").getValue().toString()).removeValue();
                             }
                         }
                     }

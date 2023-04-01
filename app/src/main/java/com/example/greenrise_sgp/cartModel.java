@@ -1,14 +1,15 @@
 package com.example.greenrise_sgp;
 
 public class cartModel {
-    String name,unitprice,currentdate,currenttime,totalquantity,totalprice,UUID,SUID,parent,image;
+    String name,currentdate,currenttime,totalquantity,totalprice,UUID,SUID,parent,image;
+    int unitprice;
 
 
 
     public cartModel() {
     }
 
-    public cartModel(String name, String unitprice, String currentdate, String currenttime, String totalquantity, String totalprice, String UUID, String SUID, String parent,String image) {
+    public cartModel(String name, int unitprice, String currentdate, String currenttime, String totalquantity, String totalprice, String UUID, String SUID, String parent,String image) {
         this.name = name;
         this.unitprice = unitprice;
         this.currentdate = currentdate;
@@ -36,11 +37,11 @@ public class cartModel {
         this.name = name;
     }
 
-    public String getUnitprice() {
+    public int getUnitprice() {
         return unitprice;
     }
 
-    public void setUnitprice(String unitprice) {
+    public void setUnitprice(int unitprice) {
         this.unitprice = unitprice;
     }
 

@@ -166,9 +166,9 @@ public class SellerHomeActivity extends AppCompatActivity {
                 if (FilePathUri != null) {
                     String Name = name.getText().toString().trim();
                     String About = about.getText().toString().trim();
-                    String Price = price.getText().toString().trim();
+                    int Price = Integer.parseInt(price.getText().toString().trim());
                     String Quantity = quantity.getText().toString().trim();
-                    if (Name.isEmpty() || About.isEmpty() || Price.isEmpty() || Quantity.isEmpty()) {
+                    if (Name.isEmpty() || About.isEmpty() || Price==0 || Quantity.isEmpty()) {
                         Toast.makeText(SellerHomeActivity.this, "All the fields are required", Toast.LENGTH_LONG).show();
                     } else if (spinner.getSelectedItem() == "Choose Category") {
                         Toast.makeText(SellerHomeActivity.this, "Select category", Toast.LENGTH_SHORT).show();

@@ -35,7 +35,8 @@ public class descFragmant extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    String about,image,name,price,quantity,parent;
+    String about,image,name,quantity,parent;
+    int price;
     SimpleDateFormat currentTime;
     SimpleDateFormat currentDate;
     //     int quantityincart;
@@ -45,7 +46,7 @@ public class descFragmant extends Fragment {
     public descFragmant() {
 
     }
-    public descFragmant(String about,String image,String name,String price,String quantity,String parent) {
+    public descFragmant(String about,String image,String name,int price,String quantity,String parent) {
         this.about=about;
         this.image=image;
         this.name=name;
@@ -87,7 +88,7 @@ public class descFragmant extends Fragment {
         Button btn2=view.findViewById(R.id.button4);
         nameholder.setText(name);
         aboutholder.setText(about);
-        priceholder.setText(price);
+        priceholder.setText(String.valueOf(price));
         if(!quantity.equals(0)) {
             quantityholder.setText("Available");
             quantityholder.setTextColor(Color.GREEN);
@@ -135,7 +136,7 @@ public class descFragmant extends Fragment {
                             }
                         }
                         if (k==0) {
-                            cartModel cm = new cartModel(name, price, t, d, "1", price,FirebaseAuth.getInstance().getCurrentUser().getUid(),String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid()+name,image);
+                            cartModel cm = new cartModel(name, price, t, d, "1", String.valueOf(price),FirebaseAuth.getInstance().getCurrentUser().getUid(),String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid()+name,image);
                             cart.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+name).setValue(cm);
                         }
 
@@ -207,7 +208,7 @@ public class descFragmant extends Fragment {
                     }
                 });
                 if(m==0) {
-                    wishModel wm = new wishModel(name, price, t, d,FirebaseAuth.getInstance().getCurrentUser().getUid()+name, String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid()+name, image);
+                    wishModel wm = new wishModel(name, String.valueOf(price), t, d,FirebaseAuth.getInstance().getCurrentUser().getUid()+name, String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid()+name, image);
                     wishlist.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+name).setValue(wm);
                 }
             }

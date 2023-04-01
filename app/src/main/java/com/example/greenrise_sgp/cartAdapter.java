@@ -33,7 +33,7 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull cartModel model) {
             holder.nametext.setText(model.getName());
-            holder.price.setText(model.getUnitprice());
+            holder.price.setText(String.valueOf(model.getUnitprice()));
             holder.quantity.setText(model.getTotalquantity());
             holder.totalPrice.setText(model.getTotalprice());
             Glide.with(holder.img1.getContext()).load(model.getImage()).into(holder.img1);
