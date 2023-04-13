@@ -1,7 +1,10 @@
 package com.example.greenrise_sgp;
 
 import android.graphics.Color;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,25 +14,50 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.mlkit.common.model.DownloadConditions;
+import com.google.mlkit.nl.translate.TranslateLanguage;
+import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
+import com.google.mlkit.nl.translate.TranslatorOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
-public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHolder> {
-  private Translator translator;
+public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHolder>{
+  private Translator translator,translator1;
+  private boolean downloaded=false,downloaded1=false;
+  static boolean gujarati=false,hindi=false;
+    String ret,ret1,ans;
+  myViewHolder holder;
+    String about,image,name,quantity,parent;
+    int price;
+    SimpleDateFormat currentTime;
+    SimpleDateFormat currentDate;
+    int m=0;
+  Model model;
     public myadapter(@NonNull FirebaseRecyclerOptions<Model> options) {
         super(options);
     }
-
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Model model) {
@@ -37,8 +65,12 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
         holder.ib12.setVisibility(View.GONE);
         holder.quantityInCart.setVisibility(View.GONE);
         holder.nametext.setText(model.getName());
-        String n1=model.getName();
-
+        String s=model.getName();
+        if(gujarati)
+        {
+            ans=setToGujarati(s);
+            holder.nametext.setText(ans);
+        }
         holder.price.setText("Rs."+String.valueOf(model.getPrice()));
         if(Integer.parseInt(model.getQuantity())>0) {
             holder.quantity.setText("Available");
@@ -48,6 +80,7 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
             holder.quantity.setText("Not Available");
             holder.quantity.setTextColor(Color.RED);
         }
+
         Glide.with(holder.img1.getContext()).load(model.getImage()).into(holder.img1);
         holder.img1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,14 +96,61 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(compoundButton.isChecked()==true)
                 {
+                    currentDate = new SimpleDateFormat("dd-MM-yyyy");
+                    currentTime = new SimpleDateFormat("HH:mm:ss");
+                    final String t = String.valueOf(currentDate.format(Calendar.getInstance().getTime()));
+                    final String d = String.valueOf(currentTime.format(Calendar.getInstance().getTime()));
+                    FirebaseDatabase db = FirebaseDatabase.getInstance();
+                    DatabaseReference wishlist =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishList");
+                    wishlist.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            m=0;
+                            for(DataSnapshot snapshot1:snapshot.getChildren())
+                            {
+                                if(snapshot1.child("name").getValue().toString().equals(name)&&snapshot1.child("parent").equals(FirebaseAuth.getInstance().getCurrentUser().getUid()+snapshot1.child("name").getValue().toString()))
+                                {
+                                    m=1;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                    if(m==0) {
+                        wishModel wm = new wishModel(name, String.valueOf(price), t, d,FirebaseAuth.getInstance().getCurrentUser().getUid()+name, String.valueOf(1),FirebaseAuth.getInstance().getCurrentUser().getUid()+name, image);
+                        wishlist.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+name).setValue(wm);
+                    }
 
                 }
                 else
                 {
+                    FirebaseDatabase db = FirebaseDatabase.getInstance();
+                    DatabaseReference wishList =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WishList");
+                    wishList.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot snapshot1:snapshot.getChildren())
+                            {
+                                if(snapshot1.child("name").getValue().toString().equals(holder.nametext.getText().toString())&&snapshot1.child("parent").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()+snapshot1.child("name").getValue().toString()))
+                                {
+                                    wishList.child(snapshot1.child("parent").getValue().toString()).removeValue();
+                                }
+                            }
+                        }
 
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
             }
         });
+
         holder.ib1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +173,7 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
 
             }
         });
+
     }
 
     @NonNull
@@ -118,6 +199,105 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
             ib11=itemView.findViewById(R.id.addInside);
             ib12=itemView.findViewById(R.id.subInside);
             quantityInCart=itemView.findViewById(R.id.quantityText);
+            nametext.setOnCreateContextMenuListener(this::onCreateContextMenu);
+
         }
+       public void onCreateContextMenu(ContextMenu contextMenu,View v,ContextMenu.ContextMenuInfo menuInfo)
+       {
+           contextMenu.setHeaderTitle("Select Language");
+           contextMenu.add(this.getAbsoluteAdapterPosition(),121,0,"Gujarati");
+           contextMenu.add(this.getAbsoluteAdapterPosition(),122,0,"Hindi");
+       }
+
+    }
+    public String setToGujarati(String s1)
+    {
+
+      String  n1=s1;
+        TranslatorOptions translatorOptions=new TranslatorOptions.Builder().setSourceLanguage(TranslateLanguage.ENGLISH).setTargetLanguage(TranslateLanguage.GUJARATI).build();
+        translator= Translation.getClient(translatorOptions);
+        DownloadConditions downloadConditions=new DownloadConditions.Builder().build();
+        translator.downloadModelIfNeeded(downloadConditions).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                downloaded=true;
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                downloaded=false;
+
+            }
+        });
+        if(downloaded)
+        {
+            translator.translate(n1).addOnSuccessListener(new OnSuccessListener<String>() {
+                @Override
+                public void onSuccess(String s) {
+                  ret=s;
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    ret= e.toString();
+                }
+            });
+        }
+     return ret;
+    }
+    public String setToHindi(String s2)
+    {
+      String  n1=s2;
+        TranslatorOptions translatorOptions=new TranslatorOptions.Builder().setSourceLanguage(TranslateLanguage.ENGLISH).setTargetLanguage(TranslateLanguage.HINDI).build();
+        translator1= Translation.getClient(translatorOptions);
+        DownloadConditions downloadConditions=new DownloadConditions.Builder().build();
+        translator1.downloadModelIfNeeded(downloadConditions).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                downloaded1=true;
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                downloaded1=false;
+
+            }
+        });
+        if(downloaded1)
+        {
+            translator1.translate(n1).addOnSuccessListener(new OnSuccessListener<String>() {
+                @Override
+                public void onSuccess(String s) {
+                  ret1=s;
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    ret1=e.toString();
+                }
+            });
+
+        }
+       return  ret1;
+
+    }
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+
+            case 121:
+                 gujarati=true;
+                return true;
+            case 122:
+                hindi=true;
+                return true;
+            default:
+                return false;
+
+        }
+
     }
 }

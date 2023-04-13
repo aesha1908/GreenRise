@@ -56,7 +56,6 @@ public class profileFragment extends Fragment {
         logout = view.findViewById(R.id.Ulog);
         name = view.findViewById(R.id.Uname);
         language = view.findViewById(R.id.languagechanger);
-        language=view.findViewById(R.id.languagechanger);
         pass = view.findViewById(R.id.Uchpw);
         uimage = view.findViewById(R.id.imageView);
         mAuth = FirebaseAuth.getInstance();

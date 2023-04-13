@@ -38,11 +38,11 @@ public class HomeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     private String mParam1;
     private String mParam2;
     private String[] titles ={"Plants","Fertilizers","Flowers","Pots","Pebbles"};
     ActivityHomePageBinding binding;
+    int currentTab=0;
     public HomeFragment() {
 
     }
@@ -78,18 +78,41 @@ public class HomeFragment extends Fragment {
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                navTab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        currentTab=tab.getPosition();
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+               if(currentTab==0)
+                PlantHomeFragment.processSearch(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                PlantHomeFragment.processSearch(newText);
                 return false;
             }
         });
         pageAdapater pa;
+
         pa=new pageAdapater(getActivity());
         vpager.setAdapter(pa);
         new TabLayoutMediator(navTab,vpager,((tab, position) -> tab.setText(titles[position]))).attach();
+
+
         final List<SlideModel> images  = new ArrayList<>();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference imagesSlider=db.getReference().child("Offers");

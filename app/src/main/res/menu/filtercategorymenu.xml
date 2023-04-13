@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/filter1" android:title="Low-to-High"/>
+    <item android:id="@+id/filter2" android:title="Between 0 - 50"/>
+    <item android:id="@+id/filter3" android:title="Between 50 - 100"/>
+    <item android:id="@+id/filter4" android:title="Between 100 - 150"/>
+    <item android:id="@+id/filter5" android:title="Between 150 - 200"/>
+    <item android:id="@+id/filter6" android:title="Between 200 - 250"/>
+    <item android:id="@+id/filter7" android:title="Between 250 - 300"/>
+    <item android:id="@+id/filter8" android:title="Between 300 - 350"/>
+    <item android:id="@+id/filter9" android:title="350 and above"/>
+
+</menu>

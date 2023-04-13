@@ -99,6 +99,7 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
                     });
                 }
             });
+
             holder.imgb2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
