@@ -10,133 +10,144 @@
         android:layout_height="match_parent">
 
 
-        <ImageView
-            android:id="@+id/imageView"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:foregroundGravity="center"
-            android:src="@drawable/userpic" />
+            android:layout_margin="10dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="15dp">
 
-        <LinearLayout
-            android:id="@+id/LL"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="155dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:foregroundGravity="center"
+                    android:src="@drawable/userpic" />
+
+                <TextView
+                    android:id="@+id/Uname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="User Name"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CV1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imageView"
-            android:layout_marginTop="2dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_below="@id/CV"
+            android:layout_marginTop="55dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="15dp">
 
-            <TextView
-                android:id="@+id/Hey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|right"
-                android:text="@string/hey"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/Uname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="User Name"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/LL"
-            android:gravity="center_vertical"
-            android:padding="10dp">
-
-            <Button
-                android:id="@+id/Uorders"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#77EC79"
-                android:drawableRight="@drawable/orders"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="My Orders"
-                android:textColor="@color/green" />
+                android:padding="10dp">
 
-            <Button
-                android:id="@+id/Uwish"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/Uorders"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#77EC79"
-                android:drawableRight="@drawable/wishh"
-                android:gravity="center_vertical"
-                android:text="My WishList"
-                android:textColor="@color/green" />
+                <Button
+                    android:id="@+id/Uorders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:drawableRight="@drawable/orders"
+                    android:drawableTint="@color/green"
+                    android:gravity="center_vertical"
+                    android:text="My Orders"
+                    android:textColor="@color/green" />
 
-            <Button
-                android:id="@+id/UInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/Uwish"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#77EC79"
-                android:drawableRight="@drawable/useri"
-                android:gravity="center_vertical"
-                android:text="Personal Info"
-                android:textColor="@color/green" />
+                <Button
+                    android:id="@+id/Uwish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/Uorders"
+                    android:backgroundTint="@color/white"
+                    android:drawableRight="@drawable/orders"
+                    android:drawableTint="@color/green"
+                    android:gravity="center_vertical"
+                    android:text="My wishlist"
+                    android:textColor="@color/green" />
 
-            <Button
-                android:id="@+id/Usts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/UInfo"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#77EC79"
-                android:drawableRight="@drawable/sellers"
-                android:gravity="center_vertical"
-                android:text="Switch To Seller"
-                android:textColor="@color/green" />
+                <Button
+                    android:id="@+id/UInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/Uwish"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableRight="@drawable/useri"
+                    android:drawableTint="@color/green"
+                    android:gravity="center_vertical"
+                    android:text="Personal Info"
+                    android:textColor="@color/green" />
 
-            <Button
-                android:id="@+id/languageChanger"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/Usts"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#77EC79"
-                android:drawableRight="@drawable/sellers"
-                android:gravity="center_vertical"
-                android:text="@string/languageChanger"
-                android:textColor="@color/green" />
+                <Button
+                    android:id="@+id/Usts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/UInfo"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableRight="@drawable/buyer"
+                    android:drawableTint="@color/green"
+                    android:gravity="center_vertical"
+                    android:text="Switch To Buyer"
+                    android:textColor="@color/green" />
 
-            <Button
-                android:id="@+id/Ulog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/languageChanger"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#77EC79"
-                android:drawableRight="@drawable/log"
-                android:gravity="center_vertical"
-                android:text="Log Out"
-                android:textColor="@color/green" />
+                <Button
+                    android:id="@+id/Uchpw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/Usts"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableRight="@drawable/chnagepasss"
+                    android:drawableTint="@color/green"
+                    android:gravity="center_vertical"
+                    android:text="Change Password"
+                    android:textColor="@color/green" />
 
-            <TextView
-                android:id="@+id/Quote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/Ulog"
-                android:layout_marginTop="19dp"
-                android:gravity="center"
-                android:text="From little seeds grow mighty trees :)"
-                android:textColor="@color/green"
-                android:textSize="20dp"
-                android:textStyle="bold" />
 
-        </RelativeLayout>
+                <Button
+                    android:id="@+id/languagechanger"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/Uchpw"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableRight="@drawable/chlang"
+                    android:drawableTint="@color/green"
+                    android:gravity="center_vertical"
+                    android:text="Change Language"
+                    android:textColor="@color/green" />
+
+                <Button
+                    android:id="@+id/Ulog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/languagechanger"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableRight="@drawable/log"
+                    android:drawableTint="@color/green"
+                    android:gravity="center_vertical"
+                    android:text="Log Out"
+                    android:textColor="@color/green" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 </FrameLayout>

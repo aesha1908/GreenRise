@@ -20,63 +20,78 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
 import java.util.Locale;
 
 
 public class profileFragment extends Fragment {
-    Button switchtoseller,orderuser,wishlistuser,infouser,logout,language;
+    Button switchtoseller,orderuser,wishlistuser,infouser,logout,language,pass;
     TextView name;
     ImageView uimage;
+    FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         loadLocale();
-        switchtoseller=view.findViewById(R.id.Usts);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        List<? extends UserInfo> userInfos = firebaseUser.getProviderData();
+        switchtoseller = view.findViewById(R.id.Usts);
         orderuser = view.findViewById(R.id.Uorders);
         wishlistuser = view.findViewById(R.id.Uwish);
         infouser = view.findViewById(R.id.UInfo);
         logout = view.findViewById(R.id.Ulog);
         name = view.findViewById(R.id.Uname);
-        language=view.findViewById(R.id.languageChanger);
+        language = view.findViewById(R.id.languagechanger);
+        pass = view.findViewById(R.id.Uchpw);
         uimage = view.findViewById(R.id.imageView);
-        FirebaseDatabase firebaseDatabase;
-        DatabaseReference databaseReference;
+        mAuth = FirebaseAuth.getInstance();
+        pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ForgetPassUser.class);
+                startActivity(intent);
+            }
+        });
         switchtoseller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),SellerLoginActivity.class);
+                Intent intent = new Intent(getActivity(), SellerLoginActivity.class);
                 startActivity(intent);
             }
         });
         orderuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity)view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new OrderFragment()).addToBackStack(null).commit();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new OrderFragment()).addToBackStack(null).commit();
             }
         });
         infouser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity)view.getContext();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 activity.getSupportFragmentManager().beginTransaction().
-                        replace(R.id.frameLayout,new MyInfoFragment()).
+                        replace(R.id.frameLayout, new MyInfoFragment()).
                         addToBackStack(null).commit();
             }
         });
         wishlistuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity)view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new WishFragment()).addToBackStack(null).commit();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new WishFragment()).addToBackStack(null).commit();
             }
         });
         language.setOnClickListener(new View.OnClickListener() {
@@ -86,76 +101,98 @@ public class profileFragment extends Fragment {
             }
         });
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference cart =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
-        DatabaseReference wish =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Wishlist");
-        DatabaseReference order =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Order");
-        DatabaseReference user=db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        user.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                name.setText(snapshot.child("name").getValue().toString());
+        DatabaseReference cart = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
+        DatabaseReference wish = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Wishlist");
+        DatabaseReference order = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Order");
+        DatabaseReference user = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//        user.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                name.setText(snapshot.child("name").getValue().toString());
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Users");
+        String uid = mAuth.getCurrentUser().getUid();
+        for (UserInfo userInfo : userInfos) {
+            String providerId = userInfo.getProviderId();
+            if (providerId.equals(PhoneAuthProvider.PROVIDER_ID)) {
+                String phone = userInfo.getPhoneNumber();
+                name.setText(phone);
             }
+            reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Seller seller = snapshot.getValue(Seller.class);
+                    if (seller != null) {
+                        String sname = seller.name;
+                        name.setText("Welcome " + name + " !");
+                    }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cart.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot snapshot1:snapshot.getChildren())
-                        {
-                            cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
+            logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cart.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
-                wish.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot snapshot1:snapshot.getChildren())
-                        {
-                            wish.child(snapshot1.child("parent").getValue().toString()).removeValue();
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-                order.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot snapshot1:snapshot.getChildren())
-                        {
-                            order.child(snapshot1.child("parent").getValue().toString()).removeValue();
+                    });
+                    wish.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                wish.child(snapshot1.child("parent").getValue().toString()).removeValue();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
-                Intent intent = new Intent(getActivity(),UserLoginActivity.class);
-                startActivity(intent);
-            }
-        });
+                        }
+                    });
+                    order.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                order.child(snapshot1.child("parent").getValue().toString()).removeValue();
+                            }
+                        }
 
-        // Inflate the layout for this fragment
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                    Intent intent = new Intent(getActivity(), UserLoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            // Inflate the layout for this fragment
+
+        }
         return view;
     }
-
     private void changelanguage() {
         final String languages[]={"English","Guajarti","Bengali"};
         AlertDialog.Builder mBuilder=new AlertDialog.Builder(getContext());

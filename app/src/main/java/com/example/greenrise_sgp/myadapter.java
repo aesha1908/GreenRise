@@ -100,10 +100,9 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
 
     public class myViewHolder extends RecyclerView.ViewHolder
     {
-        ImageView img1;
+        ImageView img1,ib1,ib11,ib12;
         TextView  nametext,price,quantity,quantityInCart;
         CheckBox lb;
-        ImageButton ib1,ib11,ib12;
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             img1=itemView.findViewById(R.id.img1);
