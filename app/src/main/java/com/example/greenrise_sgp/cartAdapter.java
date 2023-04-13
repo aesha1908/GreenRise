@@ -98,31 +98,29 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
                     });
                 }
             });
-<<<<<<< HEAD
 
-            holder.imgb2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    cart.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                                if (snapshot1.child("name").getValue().toString().equals(holder.nametext.getText())&&snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                    cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
-                                }
-                            }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+//            holder.imgb2.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    cart.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+//                                if (snapshot1.child("name").getValue().toString().equals(holder.nametext.getText())&&snapshot1.child("uuid").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+//                                    cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
+//                                }
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                        }
+//                    });
+//                }
+//            });
 
-                        }
-                    });
-                }
-            });
-
-=======
->>>>>>> da1e42bccf047de3392473d2b4f385b0d8d82736
 
     }
     @NonNull

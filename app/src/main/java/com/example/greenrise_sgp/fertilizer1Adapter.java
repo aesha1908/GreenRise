@@ -1,24 +1,18 @@
 package com.example.greenrise_sgp;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -39,24 +33,21 @@ import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
-
-public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHolder>{
-  private Translator translator,translator1;
-  private boolean downloaded=false,downloaded1=false;
-  static boolean gujarati=false,hindi=false;
+public class fertilizer1Adapter extends FirebaseRecyclerAdapter<Model, fertilizer1Adapter.myViewHolder> {
+    private Translator translator,translator1;
+    private boolean downloaded=false,downloaded1=false;
+    static boolean gujarati=false,hindi=false;
     String ret,ret1,ans;
-  myViewHolder holder;
+    com.example.greenrise_sgp.myadapter.myViewHolder holder;
     String about,image,name,quantity,parent;
     int price;
     SimpleDateFormat currentTime;
     SimpleDateFormat currentDate;
     int m=0,k=0;
-  Model model;
-    public myadapter(@NonNull FirebaseRecyclerOptions<Model> options) {
+    Model model;
+    public fertilizer1Adapter(@NonNull FirebaseRecyclerOptions<Model> options) {
         super(options);
     }
 
@@ -73,7 +64,7 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
         price=model.getPrice();
         String s=model.getName();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference plant =  db.getReference("Plants");
+        DatabaseReference plant =  db.getReference("Fertilizers");
         plant.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -320,7 +311,7 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
     {
         ImageView img1;
         //,ib1,ib11,ib12;
-        TextView  nametext,price,quantity,quantityInCart;
+        TextView nametext,price,quantity,quantityInCart;
         CheckBox lb;
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -332,23 +323,23 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
 //            ib1=itemView.findViewById(R.id.add);
 //            ib11=itemView.findViewById(R.id.addInside);
 //            ib12=itemView.findViewById(R.id.subInside);
-          //  quantityInCart=itemView.findViewById(R.id.quantityText);
+            //  quantityInCart=itemView.findViewById(R.id.quantityText);
             nametext.setOnCreateContextMenuListener(this::onCreateContextMenu);
 
         }
-       public void onCreateContextMenu(ContextMenu contextMenu,View v,ContextMenu.ContextMenuInfo menuInfo)
-       {
-           contextMenu.setHeaderTitle("Select Language");
-           contextMenu.add(this.getAbsoluteAdapterPosition(),121,0,"Gujarati");
-           contextMenu.add(this.getAbsoluteAdapterPosition(),122,0,"Hindi");
-       }
+        public void onCreateContextMenu(ContextMenu contextMenu, View v, ContextMenu.ContextMenuInfo menuInfo)
+        {
+            contextMenu.setHeaderTitle("Select Language");
+            contextMenu.add(this.getAbsoluteAdapterPosition(),121,0,"Gujarati");
+            contextMenu.add(this.getAbsoluteAdapterPosition(),122,0,"Hindi");
+        }
 
 
     }
     public String setToGujarati(String s1)
     {
 
-      String  n1=s1;
+        String  n1=s1;
         TranslatorOptions translatorOptions=new TranslatorOptions.Builder().setSourceLanguage(TranslateLanguage.ENGLISH).setTargetLanguage(TranslateLanguage.GUJARATI).build();
         translator= Translation.getClient(translatorOptions);
         DownloadConditions downloadConditions=new DownloadConditions.Builder().build();
@@ -370,7 +361,7 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
             translator.translate(n1).addOnSuccessListener(new OnSuccessListener<String>() {
                 @Override
                 public void onSuccess(String s) {
-                  ret=s;
+                    ret=s;
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -379,11 +370,11 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
                 }
             });
         }
-     return ret;
+        return ret;
     }
     public String setToHindi(String s2)
     {
-      String  n1=s2;
+        String  n1=s2;
         TranslatorOptions translatorOptions=new TranslatorOptions.Builder().setSourceLanguage(TranslateLanguage.ENGLISH).setTargetLanguage(TranslateLanguage.HINDI).build();
         translator1= Translation.getClient(translatorOptions);
         DownloadConditions downloadConditions=new DownloadConditions.Builder().build();
@@ -405,7 +396,7 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
             translator1.translate(n1).addOnSuccessListener(new OnSuccessListener<String>() {
                 @Override
                 public void onSuccess(String s) {
-                  ret1=s;
+                    ret1=s;
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -416,7 +407,7 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
             });
 
         }
-       return  ret1;
+        return  ret1;
 
     }
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -424,7 +415,7 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
         {
 
             case 121:
-                 gujarati=true;
+                gujarati=true;
                 return true;
             case 122:
                 hindi=true;
@@ -436,3 +427,4 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
 
     }
 }
+
