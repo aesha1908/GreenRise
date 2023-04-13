@@ -27,10 +27,12 @@ public class AskActivity extends AppCompatActivity {
                 {
                     Intent intent = new Intent(AskActivity.this,homePage.class);
                     startActivity(intent);
+                    finish();
                 }
                 else{
                     Intent intent = new Intent(AskActivity.this,UserLoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -41,10 +43,12 @@ public class AskActivity extends AppCompatActivity {
                 {
                     Intent intent = new Intent(AskActivity.this,SellerHomeActivity.class);
                     startActivity(intent);
+                    finish();
                 }
                 else{
                     Intent intent = new Intent(AskActivity.this,SellerLoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });

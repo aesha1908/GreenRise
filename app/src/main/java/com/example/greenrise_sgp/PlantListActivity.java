@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PlantListActivity extends AppCompatActivity {
+public class
+PlantListActivity extends AppCompatActivity {
     GridView recyclerView;
     PlantAdapter adapter;
     BottomNavigationView bnv;

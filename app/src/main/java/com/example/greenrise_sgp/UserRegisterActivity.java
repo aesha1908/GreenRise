@@ -42,7 +42,7 @@ public class UserRegisterActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-    public static String name, email, phone, pass, confpass;
+    public static String name_u, email_u, phone_u, pass_u, confpass_u;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,20 +68,20 @@ public class UserRegisterActivity extends AppCompatActivity {
         regbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                name = name_var.getText().toString();
-                email = email_var.getText().toString();
-                phone = phone_var.getText().toString();
-                pass = pass_var.getText().toString();
-                confpass = confpass_var.getText().toString();
-                if (TextUtils.isEmpty(name)) {
+                name_u = name_var.getText().toString();
+                email_u = email_var.getText().toString();
+                phone_u = phone_var.getText().toString();
+                pass_u = pass_var.getText().toString();
+                confpass_u = confpass_var.getText().toString();
+                if (TextUtils.isEmpty(name_u)) {
                     name_var.setError("Name is required!");
-                } else if (TextUtils.isEmpty(email)) {
+                } else if (TextUtils.isEmpty(email_u)) {
                     email_var.setError("Enter Proper Email!");
-                } else if (TextUtils.isEmpty(phone) || phone.length() != 10) {
+                } else if (TextUtils.isEmpty(phone_u) || phone_u.length() != 10) {
                     phone_var.setError("Enter 10 digit phone number!");
-                } else if (TextUtils.isEmpty(pass) || pass.length() < 6) {
+                } else if (TextUtils.isEmpty(pass_u) || pass_u.length() < 6) {
                     pass_var.setError("Create strong password!");
-                } else if (TextUtils.isEmpty(confpass) || !confpass.matches(pass)) {
+                } else if (TextUtils.isEmpty(confpass_u) || !confpass_u.matches(pass_u)) {
                     confpass_var.setError("Passwords do not match!");
                 }
                 else{

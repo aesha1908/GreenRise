@@ -33,9 +33,8 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull cartModel model) {
             holder.nametext.setText(model.getName());
-            holder.price.setText(String.valueOf(model.getUnitprice()));
+            holder.price.setText(String.valueOf(model.getTotalprice()));
             holder.quantity.setText(model.getTotalquantity());
-            holder.totalPrice.setText(model.getTotalprice());
             Glide.with(holder.img1.getContext()).load(model.getImage()).into(holder.img1);
             FirebaseDatabase db = FirebaseDatabase.getInstance();
             DatabaseReference cart =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
@@ -99,6 +98,7 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
                     });
                 }
             });
+<<<<<<< HEAD
 
             holder.imgb2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -121,6 +121,8 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
                 }
             });
 
+=======
+>>>>>>> da1e42bccf047de3392473d2b4f385b0d8d82736
 
     }
     @NonNull
@@ -139,13 +141,11 @@ public class cartAdapter extends FirebaseRecyclerAdapter< cartModel ,cartAdapter
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             imgb1=itemView.findViewById(R.id.imageButton);
-            imgb2=itemView.findViewById(R.id.imageButton2);
             imgb3=itemView.findViewById(R.id.imageButton3);
             nametext=itemView.findViewById(R.id.nametext);
             price=itemView.findViewById(R.id.price);
-            quantity=itemView.findViewById(R.id.quantity);
-            totalPrice=itemView.findViewById(R.id.totalPrice);
-            img1=itemView.findViewById(R.id.img1);
+            quantity=itemView.findViewById(R.id.cquantity);
+            img1=itemView.findViewById(R.id.cimg);
         }
     }
 

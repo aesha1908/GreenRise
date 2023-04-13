@@ -10,63 +10,96 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="15dp">
 
         <ImageView
-            android:id="@+id/img1"
+            android:id="@+id/wimg"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@mipmap/ic_launcher" />
+            android:scaleType="fitXY"
+            android:src="@drawable/plants"
+            android:layout_centerVertical="true"/>
 
-        <TextView
-            android:id="@+id/nametext"
+        <LinearLayout
+            android:id="@+id/LL1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/img1"
-            android:text="This is  Name"
-            android:textColor="#000"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:layout_toRightOf="@id/wimg"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/priceTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/nametext"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/img1"
-            android:text="UnitPrice: "
-            android:textColor="#000"
-            android:textSize="25sp" />
+            <TextView
+                android:id="@+id/nametext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/img1"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:text="Name"
+                android:textColor="@color/green"
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="118dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/nametext"
-            android:layout_toRightOf="@id/priceTag"
-            android:text="Price"
-            android:textColor="#000"
-            android:textSize="25sp" />
+            <LinearLayout
+                android:id="@+id/LL2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/addtocartw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/priceTag"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/img1"
-            android:text="Add to Cart" />
+                <TextView
+                    android:id="@+id/priceTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="\u20B9  "
+                    android:textColor="#000"
+                    android:textSize="25sp" />
 
-        <Button
-            android:id="@+id/removefromcartw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/addtocartw"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/img1"
-            android:text="Remove" />
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:text="Price"
+                    android:textColor="#000"
+                    android:textSize="25sp" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/LL3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/LL1"
+                android:gravity="center"
+                android:weightSum="2"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/addtocartw"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:padding="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/backet"
+                    android:text="Add to Cart" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/removefromcartw"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/backet"
+                    android:text="Remove" />
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

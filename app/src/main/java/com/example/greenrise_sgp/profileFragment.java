@@ -23,16 +23,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.List;
 import java.util.Locale;
 
 
@@ -46,16 +42,17 @@ public class profileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         loadLocale();
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = mAuth.getCurrentUser();
-        List<? extends UserInfo> userInfos = firebaseUser.getProviderData();
-        switchtoseller = view.findViewById(R.id.Usts);
+        switchtoseller=view.findViewById(R.id.Usts);
         orderuser = view.findViewById(R.id.Uorders);
         wishlistuser = view.findViewById(R.id.Uwish);
         infouser = view.findViewById(R.id.UInfo);
         logout = view.findViewById(R.id.Ulog);
         name = view.findViewById(R.id.Uname);
+<<<<<<< HEAD
         language = view.findViewById(R.id.languagechanger);
+=======
+        language=view.findViewById(R.id.languagechanger);
+>>>>>>> da1e42bccf047de3392473d2b4f385b0d8d82736
         pass = view.findViewById(R.id.Uchpw);
         uimage = view.findViewById(R.id.imageView);
         mAuth = FirebaseAuth.getInstance();
@@ -69,31 +66,31 @@ public class profileFragment extends Fragment {
         switchtoseller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SellerLoginActivity.class);
+                Intent intent = new Intent(getActivity(),SellerLoginActivity.class);
                 startActivity(intent);
             }
         });
         orderuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new OrderFragment()).addToBackStack(null).commit();
+                AppCompatActivity activity = (AppCompatActivity)view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new OrderFragment()).addToBackStack(null).commit();
             }
         });
         infouser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                AppCompatActivity activity = (AppCompatActivity)view.getContext();
                 activity.getSupportFragmentManager().beginTransaction().
-                        replace(R.id.frameLayout, new MyInfoFragment()).
+                        replace(R.id.frameLayout,new MyInfoFragment()).
                         addToBackStack(null).commit();
             }
         });
         wishlistuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new WishFragment()).addToBackStack(null).commit();
+                AppCompatActivity activity = (AppCompatActivity)view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new WishFragment()).addToBackStack(null).commit();
             }
         });
         language.setOnClickListener(new View.OnClickListener() {
@@ -103,98 +100,81 @@ public class profileFragment extends Fragment {
             }
         });
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference cart = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
-        DatabaseReference wish = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Wishlist");
-        DatabaseReference order = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Order");
-        DatabaseReference user = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//        user.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                name.setText(snapshot.child("name").getValue().toString());
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Users");
+        DatabaseReference cart =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
+        DatabaseReference wish =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Wishlist");
+        DatabaseReference order =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Order");
+        DatabaseReference user=db.getReference("Users");
         String uid = mAuth.getCurrentUser().getUid();
-        for (UserInfo userInfo : userInfos) {
-            String providerId = userInfo.getProviderId();
-            if (providerId.equals(PhoneAuthProvider.PROVIDER_ID)) {
-                String phone = userInfo.getPhoneNumber();
-                name.setText(phone);
+        user.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User users = snapshot.getValue(User.class);
+                if (users != null) {
+                    String zname = users.name;
+                    name.setText("Welcome " + zname + " !");
+                }
             }
-            reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Seller seller = snapshot.getValue(Seller.class);
-                    if (seller != null) {
-                        String sname = seller.name;
-                        name.setText("Welcome " + name + " !");
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cart.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot snapshot1:snapshot.getChildren())
+                        {
+                            cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
+                        }
                     }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
-
-            logout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    cart.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                                cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
-                            }
+                    }
+                });
+                wish.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot snapshot1:snapshot.getChildren())
+                        {
+                            wish.child(snapshot1.child("parent").getValue().toString()).removeValue();
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
+                    }
+                });
+                order.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot snapshot1:snapshot.getChildren())
+                        {
+                            order.child(snapshot1.child("parent").getValue().toString()).removeValue();
                         }
-                    });
-                    wish.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                                wish.child(snapshot1.child("parent").getValue().toString()).removeValue();
-                            }
-                        }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-                    });
-                    order.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                                order.child(snapshot1.child("parent").getValue().toString()).removeValue();
-                            }
-                        }
+                    }
+                });
+                Intent intent = new Intent(getActivity(),UserLoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                    Intent intent = new Intent(getActivity(), UserLoginActivity.class);
-                    startActivity(intent);
-                }
-            });
-
-            // Inflate the layout for this fragment
-
-        }
+        // Inflate the layout for this fragment
         return view;
     }
+
     private void changelanguage() {
         final String languages[]={"English","Guajarti","Bengali"};
         AlertDialog.Builder mBuilder=new AlertDialog.Builder(getContext());

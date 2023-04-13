@@ -75,6 +75,51 @@
         <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/Green/app/src/main/res/layout/plantentry.xml" value="0.2" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/Green/app/src/main/res/layout/plantupdate.xml" value="0.109375" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/Green/app/src/main/res/menu/searchmenu.xml" value="0.22447916666666667" />
+<<<<<<< HEAD
+=======
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable-v24/back.xml" value="0.1945" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable/backbtn.xml" value="0.2105" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable/backcheck.xml" value="0.2105" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable/backet.xml" value="0.2105" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable/backg.xml" value="0.1945" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable/backtv.xml" value="0.1945" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable/borderet.xml" value="0.2105" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable/chlang.xml" value="0.1945" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable/chnagepasss.xml" value="0.1945" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable/ic_baseline_remove_24.xml" value="0.2105" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/drawable/spinnerbg.xml" value="0.1945" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_flower_list.xml" value="0.1453804347826087" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_group.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_home_page.xml" value="0.1453804347826087" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_otpactivity.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_pebbles_list.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_plant_list2.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_reg_otpactivity.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_seller_home.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_seller_information.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_seller_login.xml" value="0.25" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_seller_orders.xml" value="0.18" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_seller_profile.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_seller_register.xml" value="0.5" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_user_login.xml" value="0.25" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_user_login_otpactivity.xml" value="0.33" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_user_otpactivity.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_user_reg_otpactivity.xml" value="0.22" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/activity_user_register.xml" value="0.33" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/catentry.xml" value="0.1" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/fragment_buy.xml" value="0.25" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/fragment_checkout.xml" value="0.25" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/fragment_my_info.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/fragment_profile.xml" value="0.22" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/fragment_wish.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/orderentry.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/plantentry.xml" value="0.25" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/singlerowcartdesign.xml" value="0.22" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/singlerowdesign.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/singleroworderdesign.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/GreenRise/app/src/main/res/layout/singlerowwishdesign.xml" value="0.25" />
+>>>>>>> da1e42bccf047de3392473d2b4f385b0d8d82736
         <entry key="..\:/Users/dell/AndroidStudioProjects/Greenrise_SGP/app/src/main/res/drawable-v24/back.xml" value="0.1" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/Greenrise_SGP/app/src/main/res/drawable-v24/google.xml" value="0.2075" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/Greenrise_SGP/app/src/main/res/drawable/add.xml" value="0.2065" />
