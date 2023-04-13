@@ -104,7 +104,7 @@
                     android:drawableRight="@drawable/buyer"
                     android:drawableTint="@color/green"
                     android:gravity="center_vertical"
-                    android:text="Switch To Buyer"
+                    android:text="Switch To Seller"
                     android:textColor="@color/green" />
 
                 <Button

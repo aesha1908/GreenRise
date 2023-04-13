@@ -50,28 +50,29 @@ public class checkoutFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     String totalPrice;
-    String Key="";
+    String Key = "";
     Button btn;
-    String SECRET_KEY="sk_test_51LuUZWSJo5nDYZPwg2mHFMw0BFgkmG5rhmhKZBlT30PDwmvgsoPqNMTBxKqPgzk8uDRy8Ne5DGO3bc3ow7E67YVO001jC2guWq";
-    String PUBLISH_KEY="pk_test_51LuUZWSJo5nDYZPwvoDbXNbQIXT3GE7FpUtYx9FbuLNGKiOT3CeV0xjleW0aPP47sCoUqnjo9xsZWXv6i9XcoQNJ00fKk2dg7R";
-  PaymentSheet paymentSheet;
-  String customerID;
-  String EmphericalKey;
-  String clientSecret;
-  View view1;
-    TextView tv,tv1;
-    EditText uname,phone,address,city,state;
-    String name,currentdate,currenttime,totalquantity,totalprice,UUID,SUID,parent,image;
-    Integer quantityInPlants,unitprice;
+    String SECRET_KEY = "sk_test_51LuUZWSJo5nDYZPwg2mHFMw0BFgkmG5rhmhKZBlT30PDwmvgsoPqNMTBxKqPgzk8uDRy8Ne5DGO3bc3ow7E67YVO001jC2guWq";
+    String PUBLISH_KEY = "pk_test_51LuUZWSJo5nDYZPwvoDbXNbQIXT3GE7FpUtYx9FbuLNGKiOT3CeV0xjleW0aPP47sCoUqnjo9xsZWXv6i9XcoQNJ00fKk2dg7R";
+    PaymentSheet paymentSheet;
+    String customerID;
+    String EmphericalKey;
+    String clientSecret;
+    View view1;
+    TextView tv, tv1;
+    EditText uname, phone, address, city, state;
+    String name, currentdate, currenttime, totalquantity, totalprice, UUID, SUID, parent, image;
+    Integer quantityInPlants, unitprice;
     RecyclerView rv;
     myadapter adapter;
-    static int i=0;
+    static int i = 0;
+
     public checkoutFragment() {
         // Required empty public constructor
     }
-    public checkoutFragment(String totalPrice)
-    {
-        this.totalPrice=totalPrice;
+
+    public checkoutFragment(String totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
 
@@ -98,7 +99,7 @@ public class checkoutFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_checkout, container, false);
-        view1=view;
+        view1 = view;
         tv = view.findViewById(R.id.textView);
         TextView tv1 = view.findViewById(R.id.quote);
 //        uname = view.findViewById(R.id.editTextTextPersonName);
@@ -112,11 +113,11 @@ public class checkoutFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    Random random = new Random();
-                    int random1=random.nextInt(21)+1;
-                    String k1="q"+random1;
-                    DataSnapshot snapshot1=snapshot.child(String.valueOf(random1));
-                tv1.setText("\""+snapshot1.child(k1).getValue().toString()+"\"");
+                Random random = new Random();
+                int random1 = random.nextInt(21) + 1;
+                String k1 = "q" + random1;
+                DataSnapshot snapshot1 = snapshot.child(String.valueOf(random1));
+                tv1.setText("\"" + snapshot1.child(k1).getValue().toString() + "\"");
             }
 
             @Override
@@ -125,25 +126,24 @@ public class checkoutFragment extends Fragment {
             }
         });
         btn = view.findViewById(R.id.button6);
-        tv.setText("Your total amount is:"+totalPrice);
+        tv.setText("\u20B9" + totalPrice);
         btn.setEnabled(false);
-        PaymentConfiguration.init(view.getContext(),PUBLISH_KEY);
-        paymentSheet=new PaymentSheet(this,paymentSheetResult -> {
-          onPaymentResult(paymentSheetResult);
+        PaymentConfiguration.init(view.getContext(), PUBLISH_KEY);
+        paymentSheet = new PaymentSheet(this, paymentSheetResult -> {
+            onPaymentResult(paymentSheetResult);
         });
-        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "https://api.stripe.com/v1/customers",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try{
+                        try {
                             JSONObject obj = new JSONObject(response);
-                            customerID=obj.getString("id");
+                            customerID = obj.getString("id");
 
                             getEmphericalKey(customerID);
 
-                        } catch (JSONException e)
-                        {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -154,15 +154,15 @@ public class checkoutFragment extends Fragment {
 
             }
         }
-        ){
+        ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> headers = new HashMap<>();
-                headers.put("Authorization","Bearer "+SECRET_KEY);
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + SECRET_KEY);
                 return headers;
             }
         };
-        RequestQueue requestQueue= Volley.newRequestQueue(view.getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(view.getContext());
         requestQueue.add(stringRequest);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,7 +194,7 @@ public class checkoutFragment extends Fragment {
 //                    state.setError("Enter State");
 //                }
 //                else {
-                    PaymentFlow();
+                PaymentFlow();
 //                }
 
             }
@@ -203,51 +203,49 @@ public class checkoutFragment extends Fragment {
     }
 
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
-        if(paymentSheetResult instanceof  PaymentSheetResult.Completed)
-        {
-            Toast.makeText(view1.getContext(),"Succesful payment",Toast.LENGTH_SHORT).show();
+        if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
+            Toast.makeText(view1.getContext(), "Your order has been placed", Toast.LENGTH_SHORT).show();
             tv = view1.findViewById(R.id.textView);
-            AppCompatActivity activity = (AppCompatActivity)view1.getContext();
-            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new HomeFragment()).addToBackStack(null).commit();
+            AppCompatActivity activity = (AppCompatActivity) view1.getContext();
+            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new HomeFragment()).addToBackStack(null).commit();
             FirebaseDatabase db = FirebaseDatabase.getInstance();
-            DatabaseReference orders =  db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Order");
+            DatabaseReference order = db.getReference("Orders");
+            DatabaseReference orders = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Order");
             DatabaseReference cart = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Cart");
             DatabaseReference plants = db.getReference("Plant");
             cart.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot dataSnapshot:snapshot.getChildren())
-                    {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
-                        name=dataSnapshot.child("name").getValue().toString();
-                        unitprice=Integer.parseInt(dataSnapshot.child("unitprice").getValue().toString());
-                        currentdate=dataSnapshot.child("currentdate").getValue().toString();
-                        currenttime=dataSnapshot.child("currenttime").getValue().toString();
-                        totalquantity=dataSnapshot.child("totalquantity").getValue().toString();
-                        totalprice=dataSnapshot.child("totalprice").getValue().toString();
-                        UUID=dataSnapshot.child("uuid").getValue().toString();
-                        SUID=dataSnapshot.child("suid").getValue().toString();
-                        parent=dataSnapshot.child("parent").getValue().toString();
-                        image=dataSnapshot.child("image").getValue().toString();
+                        name = dataSnapshot.child("name").getValue().toString();
+                        unitprice = Integer.parseInt(dataSnapshot.child("unitprice").getValue().toString());
+                        currentdate = dataSnapshot.child("currentdate").getValue().toString();
+                        currenttime = dataSnapshot.child("currenttime").getValue().toString();
+                        totalquantity = dataSnapshot.child("totalquantity").getValue().toString();
+                        totalprice = dataSnapshot.child("totalprice").getValue().toString();
+                        UUID = dataSnapshot.child("uuid").getValue().toString();
+                        SUID = dataSnapshot.child("suid").getValue().toString();
+                        parent = dataSnapshot.child("parent").getValue().toString();
+                        image = dataSnapshot.child("image").getValue().toString();
 
 
-                            cartModel cm = new cartModel(name, unitprice, currentdate, currenttime, totalquantity, totalprice,UUID, SUID,FirebaseAuth.getInstance().getCurrentUser().getUid()+currentdate+currenttime,image);
-                            orders.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+currentdate+currenttime).setValue(cm);
-
-                      //  i++;
+                        cartModel cm = new cartModel(name, unitprice, currentdate, currenttime, totalquantity, totalprice, UUID, SUID, FirebaseAuth.getInstance().getCurrentUser().getUid() + currentdate + currenttime, image);
+                        SellerOrders co = new SellerOrders(name,totalprice,totalquantity,image);
+                        orders.child(FirebaseAuth.getInstance().getCurrentUser().getUid() + currentdate + currenttime).setValue(cm);
+                        order.setValue(co);
+                        //  i++;
 
                         plants.addListenerForSingleValueEvent(new ValueEventListener() {
 
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for(DataSnapshot dataSnapshot:snapshot.getChildren())
-                                {
-                                    if(dataSnapshot.child("name").getValue().toString().equals(name))
-                                    {
-                                        Key=dataSnapshot.child("key").getValue().toString();
-                                        HashMap updateq=new HashMap();
-                                        quantityInPlants=Integer.parseInt(dataSnapshot.child("quantity").getValue().toString())-Integer.parseInt(totalquantity);
-                                        updateq.put("quantity",String.valueOf(quantityInPlants));
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    if (dataSnapshot.child("name").getValue().toString().equals(name)) {
+                                        Key = dataSnapshot.child("key").getValue().toString();
+                                        HashMap updateq = new HashMap();
+                                        quantityInPlants = Integer.parseInt(dataSnapshot.child("quantity").getValue().toString()) - Integer.parseInt(totalquantity);
+                                        updateq.put("quantity", String.valueOf(quantityInPlants));
                                         plants.child(Key).updateChildren(updateq);
                                     }
 
@@ -261,15 +259,11 @@ public class checkoutFragment extends Fragment {
 
                             }
                         });
-
-
                         cart.child(parent).removeValue();
                         tv.setText("You have nothing in cart!");
                     }
 
                 }
-
-
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -281,20 +275,19 @@ public class checkoutFragment extends Fragment {
     }
 
 
-    private void getEmphericalKey(String customerID){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+    private void getEmphericalKey(String customerID) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "https://api.stripe.com/v1/ephemeral_keys",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try{
+                        try {
                             JSONObject obj = new JSONObject(response);
-                            EmphericalKey=obj.getString("id");
+                            EmphericalKey = obj.getString("id");
 
-                            getClientSecret(customerID,EmphericalKey);
+                            getClientSecret(customerID, EmphericalKey);
 
-                        } catch (JSONException e)
-                        {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -305,41 +298,40 @@ public class checkoutFragment extends Fragment {
 
             }
         }
-        ){
+        ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> headers = new HashMap<>();
-                headers.put("Authorization","Bearer "+SECRET_KEY);
-                headers.put("Stripe-Version","2022-08-01");
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + SECRET_KEY);
+                headers.put("Stripe-Version", "2022-08-01");
                 return headers;
             }
 
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> body = new HashMap<>();
-                body.put("customer",customerID);
+                Map<String, String> body = new HashMap<>();
+                body.put("customer", customerID);
                 return body;
             }
         };
-        RequestQueue requestQueue= Volley.newRequestQueue(view1.getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(view1.getContext());
         requestQueue.add(stringRequest);
     }
 
     private void getClientSecret(String customerID, String emphericalKey) {
-        StringRequest stringRequest=new StringRequest(Request.Method.POST,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "https://api.stripe.com/v1/payment_intents",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try{
+                        try {
                             JSONObject obj = new JSONObject(response);
-                            clientSecret=obj.getString("client_secret");
-                           // Toast.makeText(view1.getContext(),"Now press button",Toast.LENGTH_SHORT).show();
+                            clientSecret = obj.getString("client_secret");
+                            // Toast.makeText(view1.getContext(),"Now press button",Toast.LENGTH_SHORT).show();
                             btn.setEnabled(true);
 
-                        } catch (JSONException e)
-                        {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -350,43 +342,42 @@ public class checkoutFragment extends Fragment {
 
             }
         }
-        ){
+        ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> headers = new HashMap<>();
-                headers.put("Authorization","Bearer "+SECRET_KEY);
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + SECRET_KEY);
                 return headers;
             }
 
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> body = new HashMap<>();
-                body.put("customer",customerID);
-                body.put("amount",totalPrice+"00");
-                body.put("currency","INR");
-                body.put("automatic_payment_methods[enabled]","true");
+                Map<String, String> body = new HashMap<>();
+                body.put("customer", customerID);
+                body.put("amount", totalPrice + "00");
+                body.put("currency", "INR");
+                body.put("automatic_payment_methods[enabled]", "true");
                 return body;
             }
         };
-        RequestQueue requestQueue= Volley.newRequestQueue(view1.getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(view1.getContext());
         requestQueue.add(stringRequest);
     }
 
     private void PaymentFlow() {
-        paymentSheet.presentWithPaymentIntent(clientSecret,new PaymentSheet.Configuration("GreenRise",
-                new PaymentSheet.CustomerConfiguration(customerID,EmphericalKey)));
+        paymentSheet.presentWithPaymentIntent(clientSecret, new PaymentSheet.Configuration("GreenRise",
+                new PaymentSheet.CustomerConfiguration(customerID, EmphericalKey)));
     }
 
-    public void onBackPressed()
-    {
-        AppCompatActivity activity = (AppCompatActivity)getContext();
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new BuyFragment()).addToBackStack(null).commit();
+    public void onBackPressed() {
+        AppCompatActivity activity = (AppCompatActivity) getContext();
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new BuyFragment()).addToBackStack(null).commit();
 
     }
-    private  void gotoURL(String url)
-    {
+
+    private void gotoURL(String url) {
         Uri uri = Uri.parse(url);
-        startActivity(new Intent(Intent.ACTION_VIEW,uri));
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 }

@@ -7,28 +7,16 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.greenrise_sgp.databinding.ActivitySellerLoginBinding;
-import com.example.greenrise_sgp.databinding.ActivitySellerRegisterBinding;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -46,17 +34,16 @@ public class SellerLoginActivity extends AppCompatActivity {
     TextView reg, forpass, otp;
     FirebaseAuth mAuth;
     ProgressDialog progressDialog;
-    ActivitySellerLoginBinding binding;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     CountryCodePicker ccp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySellerLoginBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_seller_login);
         email_login = findViewById(R.id.LoginEmail);
         pass_login = findViewById(R.id.LoginPasswd);
         loginbtn = findViewById(R.id.loginbtn);
+        otp = findViewById(R.id.otplogin);
         progressDialog = new ProgressDialog(this);
         reg = findViewById(R.id.regtv);
         mAuth = FirebaseAuth.getInstance();
@@ -69,7 +56,7 @@ public class SellerLoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        binding.otplogin.setOnClickListener(new View.OnClickListener() {
+        otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendotp();
@@ -78,11 +65,11 @@ public class SellerLoginActivity extends AppCompatActivity {
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(binding.LoginEmail.getText().toString().isEmpty())
+                if(email_login.getText().toString().isEmpty())
                 {
-                    binding.LoginEmail.setError("Enter valid email or phone number");
+                    email_login.setError("Enter valid email or phone number");
                 }
-                if(binding.LoginEmail.getText().toString().contains("@"))
+                if(email_login.getText().toString().contains("@"))
                 {
                     authenticate_user();
                 }
@@ -110,7 +97,7 @@ public class SellerLoginActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
-                binding.loginbtn.setVisibility(View.VISIBLE);
+                loginbtn.setVisibility(View.VISIBLE);
                 Toast.makeText(SellerLoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
 
@@ -118,14 +105,14 @@ public class SellerLoginActivity extends AppCompatActivity {
             public void onCodeSent(@NonNull String verificationId,
                                    @NonNull PhoneAuthProvider.ForceResendingToken token) {
                 Intent intent = new Intent(SellerLoginActivity.this, OTPActivity.class);
-                intent.putExtra("phone", binding.LoginEmail.getText().toString().trim());
+                intent.putExtra("phone", email_login.getText().toString().trim());
                 intent.putExtra("verificationId", verificationId);
                 startActivity(intent);
             }
         };
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber("+91" + binding.LoginEmail.getText().toString().trim())       // Phone number to verify
+                        .setPhoneNumber("+91" + email_login.getText().toString().trim())       // Phone number to verify
                         .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
                         .setActivity(this)                 // Activity (for callback binding)
                         .setCallbacks(mCallback)          // OnVerificationStateChangedCallbacks

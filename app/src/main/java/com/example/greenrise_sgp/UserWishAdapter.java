@@ -125,7 +125,7 @@ public class UserWishAdapter extends FirebaseRecyclerAdapter<wishModel,UserWishA
             super(itemView);
             nametext=itemView.findViewById(R.id.nametext);
             price=itemView.findViewById(R.id.price);
-            img1=itemView.findViewById(R.id.img1);
+            img1=itemView.findViewById(R.id.wimg);
             b1=itemView.findViewById(R.id.addtocartw);
             b2=itemView.findViewById(R.id.removefromcartw);
         }

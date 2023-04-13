@@ -7,6 +7,11 @@ import static com.example.greenrise_sgp.SellerRegisterActivity.pass;
 import static com.example.greenrise_sgp.SellerRegisterActivity.phone;
 import static com.example.greenrise_sgp.SellerRegisterActivity.selltype;
 import static com.example.greenrise_sgp.SellerRegisterActivity.upiid;
+import static com.example.greenrise_sgp.UserRegisterActivity.confpass_u;
+import static com.example.greenrise_sgp.UserRegisterActivity.email_u;
+import static com.example.greenrise_sgp.UserRegisterActivity.name_u;
+import static com.example.greenrise_sgp.UserRegisterActivity.pass_u;
+import static com.example.greenrise_sgp.UserRegisterActivity.phone_u;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +28,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.greenrise_sgp.databinding.ActivityRegOtpactivityBinding;
+import com.example.greenrise_sgp.databinding.ActivityUserOtpactivityBinding;
 import com.example.greenrise_sgp.databinding.ActivityUserRegOtpactivityBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,6 +48,7 @@ public class UserRegOTPActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityUserRegOtpactivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         t1 = findViewById(R.id.uotp1);
         t2 = findViewById(R.id.uotp2);
@@ -110,15 +117,15 @@ public class UserRegOTPActivity extends AppCompatActivity {
         progressDialog.setMessage("Wait while we register your data...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        mAuth.createUserWithEmailAndPassword(email, pass)
+        mAuth.createUserWithEmailAndPassword(email_u, pass_u)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            User seller = new User(uid, name, email, phone, pass, confpass);
+                            String uuid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            User seller = new User(uuid, name_u, email_u, phone_u, pass_u, confpass_u);
                             FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(uid)
+                                    .child(uuid)
                                     .setValue(seller).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

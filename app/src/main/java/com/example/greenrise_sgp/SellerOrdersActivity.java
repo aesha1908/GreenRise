@@ -38,25 +38,6 @@ public class SellerOrdersActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         bnv = findViewById(R.id.bottomnav);
         bnv.setSelectedItemId(R.id.carti);
-        bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId())
-                {
-                    case R.id.homei:
-                        Intent intent = new Intent(SellerOrdersActivity.this,SellerHomeActivity.class);
-                        startActivity(intent);
-                        return true;
-                    case R.id.profilei:
-                        Intent intent1 = new Intent(SellerOrdersActivity.this,SellerInformationActivity.class);
-                        startActivity(intent1);
-                        return true;
-                    case R.id.carti:
-                        return true;
-                }
-                return false;
-            }
-        });
         arrayList = new ArrayList<>();
         orderAdapter = new OrderAdapter(this, arrayList);
         recyclerView.setAdapter(orderAdapter);
@@ -80,6 +61,25 @@ public class SellerOrdersActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId())
+                {
+                    case R.id.homei:
+                        Intent intent = new Intent(SellerOrdersActivity.this,SellerHomeActivity.class);
+                        startActivity(intent);
+                        return true;
+                    case R.id.profilei:
+                        Intent intent1 = new Intent(SellerOrdersActivity.this,SellerInformationActivity.class);
+                        startActivity(intent1);
+                        return true;
+                    case R.id.carti:
+                        return true;
+                }
+                return false;
             }
         });
     }

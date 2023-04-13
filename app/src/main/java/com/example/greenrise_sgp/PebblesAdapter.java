@@ -74,7 +74,7 @@ public class PebblesAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 DBQuery.g_selectedcatindex = i;
-                Intent intent = new Intent(view.getContext(), FlowerListActivity.class);
+                Intent intent = new Intent(view.getContext(), PebblesListActivity.class);
                 view.getContext().startActivity(intent);
             }
         });

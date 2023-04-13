@@ -11,13 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.myViewHolder> {
     Context context;
     ArrayList<SellerOrders> arrayList;
-
     public OrderAdapter(Context context, ArrayList<SellerOrders> arrayList) {
         this.context = context;
         this.arrayList = arrayList;

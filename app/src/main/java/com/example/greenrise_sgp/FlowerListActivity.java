@@ -27,7 +27,6 @@ public class FlowerListActivity extends AppCompatActivity {
     SearchView searchView;
     ArrayList<Flower> searchlist;
     ImageView voice;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

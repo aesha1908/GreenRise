@@ -1,117 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="8dp"
-    app:cardCornerRadius="10dp"
-    app:cardUseCompatPadding="true">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:layout_margin="10dp"
+        android:elevation="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardUseCompatPadding="true">
 
-        <ImageView
-            android:id="@+id/img1"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@+id/nametext"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/img1"
-            android:text="Name"
-            android:textColor="#000"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:padding="15dp">
 
-        <TextView
-            android:id="@+id/priceTagc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/nametext"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/img1"
-            android:text="Price: "
-            android:textColor="#000"
-            android:textSize="25sp" />
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/nametext"
-            android:layout_toRightOf="@id/priceTagc"
-            android:text="Price"
-            android:textColor="#000"
-            android:textSize="25sp" />
+            <ImageView
+                android:id="@+id/cimg"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/plants" />
+
+            <LinearLayout
+                android:id="@+id/LL1"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_toRightOf="@id/cimg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nametext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/img1"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:text="Name"
+                    android:textColor="@color/green"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/LL2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/priceTagc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/nametext"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/img1"
+                        android:text="\u20B9  "
+                        android:textColor="#000"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/nametext"
+                        android:layout_toRightOf="@id/priceTagc"
+                        android:fontFamily="serif"
+                        android:text="Price"
+                        android:textColor="#000"
+                        android:textSize="25sp" />
+                </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/totalPrice"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@id/imageButton"
-            android:text="1"
-            android:textColor="#000"
-            android:textSize="25sp" />
+                <LinearLayout
+                    android:id="@+id/LL3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@id/LL1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/totalPriceTagC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/price"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/img1"
-            android:text="Total: "
-            android:textColor="#000"
-            android:textSize="25sp" />
-        <TextView
-            android:id="@+id/totalPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/price"
-            android:layout_toRightOf="@id/totalPriceTagC"
-            android:text="Total Price"
-            android:textColor="#000"
-            android:textSize="25sp" />
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/backbtn"
+                        app:srcCompat="@drawable/ic_baseline_add_24"
+                        app:tint="@color/white" />
 
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/totalPriceTagC"
-            android:layout_toRightOf="@id/img1"
-            app:srcCompat="@drawable/ic_baseline_add_24"
-            android:layout_marginLeft="5dp"
-            app:tint="@color/green" />
+                    <TextView
+                        android:id="@+id/cquantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="serif"
+                        android:text="1"
+                        android:textColor="#000"
+                        android:textSize="25sp" />
 
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/totalPrice"
-            android:layout_toRightOf="@id/imageButton3"
-            android:layout_marginLeft="5dp"
-            app:srcCompat="@drawable/ic_baseline_delete_24"
-            app:tint="@color/green" />
+                    <ImageButton
+                        android:id="@+id/imageButton3"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/backbtn"
+                        app:srcCompat="@drawable/ic_baseline_remove_24"
+                        app:tint="@color/white" />
 
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/totalPrice"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/quantity"
-            app:srcCompat="@drawable/ic_baseline_remove_24"
-            app:tint="@color/green" />
+                    <!--                <ImageButton-->
+                    <!--                    android:id="@+id/imageButton2"-->
+                    <!--                    android:layout_width="30dp"-->
+                    <!--                    android:layout_height="30dp"-->
+                    <!--                    android:layout_gravity="end"-->
+                    <!--                    android:layout_marginLeft="5dp"-->
+                    <!--                    android:background="@drawable/backbtn"-->
+                    <!--                    android:src="@drawable/ic_baseline_delete_24"-->
+                    <!--                    app:tint="@color/green" />-->
 
-    </RelativeLayout>
-</androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:baselineAligned="false"-->
+<!--        android:layout_below="@id/cv"-->
+<!--        android:gravity="bottom"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/cv1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:elevation="8dp"-->
+<!--            android:layout_margin="5dp"-->
+<!--            app:cardCornerRadius="5dp"-->
+<!--            app:cardUseCompatPadding="true">-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/cv"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:baselineAligned="false"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/totalPriceTagC"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/cv"-->
+<!--                    android:fontFamily="serif"-->
+<!--                    android:text="Total"-->
+<!--                    android:textColor="#88454040"-->
+<!--                    android:textSize="15sp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/totalPrice"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_toRightOf="@id/totalPriceTagC"-->
+<!--                    android:fontFamily="serif"-->
+<!--                    android:text="Total Price"-->
+<!--                    android:textColor="#000"-->
+<!--                    android:textSize="25sp" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/cv"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:gravity="end|center">-->
+
+<!--                <androidx.appcompat.widget.AppCompatButton-->
+<!--                    android:id="@+id/button2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_gravity="bottom"-->
+<!--                    android:background="@drawable/backcheck"-->
+<!--                    android:drawableRight="@drawable/log"-->
+<!--                    android:drawablePadding="7dp"-->
+<!--                    android:drawableTint="@color/black"-->
+<!--                    android:elevation="15dp"-->
+<!--                    android:fontFamily="serif"-->
+<!--                    android:padding="7dp"-->
+<!--                    android:text="Checkout"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textStyle="bold"-->
+<!--                    app:cornerRadius="10dp" />-->
+<!--            </RelativeLayout>-->
+<!--        </androidx.cardview.widget.CardView>-->
+<!--    </LinearLayout>-->
+
+</LinearLayout>

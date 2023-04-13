@@ -117,64 +117,6 @@ public class SellerRegisterActivity extends AppCompatActivity {
 
         });
     }
-
-    private void performAuthentication() {
-        name_var = findViewById(R.id.Name);
-        email_var = findViewById(R.id.Email);
-        phone_var = findViewById(R.id.Phone);
-        pass_var = findViewById(R.id.RegPasswd);
-        confpass_var = findViewById(R.id.ConfRegPasswd);
-        upiid_var = findViewById(R.id.UPIid);
-        String name = name_var.getText().toString();
-        String email = email_var.getText().toString();
-        String phone = phone_var.getText().toString();
-        String pass = pass_var.getText().toString();
-        String confpass = confpass_var.getText().toString();
-        String selltype = selltype_var.getSelectedItem().toString();
-        String upiid = upiid_var.getText().toString();
-        if (TextUtils.isEmpty(name)) {
-            name_var.setError("Name is required!");
-        } else if (TextUtils.isEmpty(email)) {
-            email_var.setError("Enter Proper Email!");
-        } else if (TextUtils.isEmpty(phone) || phone.length() != 10) {
-            phone_var.setError("Enter 10 digit phone number!");
-        } else if (TextUtils.isEmpty(pass) || pass.length() < 6) {
-            pass_var.setError("Create strong password!");
-        } else if (TextUtils.isEmpty(confpass) || !confpass.matches(pass)) {
-            confpass_var.setError("Passwords do not match!");
-        } else if (selltype_var.getSelectedItem().toString().trim().equals("Seller Type")) {
-            Toast.makeText(SellerRegisterActivity.this, "Select Seller Type", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(upiid)) {
-            email_var.setError("Enter Proper UPI ID!");
-        } else {
-            progressDialog.setTitle("Registration...");
-            progressDialog.setMessage("Wait while we register your data...");
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.show();
-            mAuth.createUserWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                Seller seller = new Seller(uid, name, email, phone, pass, confpass, selltype, upiid);
-                                FirebaseDatabase.getInstance().getReference("Sellers")
-                                        .child(uid)
-                                        .setValue(seller).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                Intent intent = new Intent(SellerRegisterActivity.this, SellerLoginActivity.class);
-                                                startActivity(intent);
-                                            }
-                                        });
-                            } else {
-                                Toast.makeText(SellerRegisterActivity.this, "Error: " + task.getException(), Toast.LENGTH_SHORT).show();
-                                progressDialog.dismiss();
-                            }
-                        }
-                    });
-        }
-    }
     public void sendotp() {
         mCallback = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 

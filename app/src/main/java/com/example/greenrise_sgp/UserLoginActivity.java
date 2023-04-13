@@ -21,27 +21,30 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.TimeUnit;
+
 public class UserLoginActivity extends AppCompatActivity {
     EditText email_login, pass_login;
     Button loginbtn;
-    TextView reg, forpass, google_login;
+    TextView reg, forpass, otp;
     FirebaseAuth mAuth;
-    FirebaseUser mUser;
-    GoogleSignInClient googleSignInClient;
     ProgressDialog progressDialog;
-    private static final int RC_SIGN_IN = 1;
-    private static final String TAG = "GOOGLEAUTH";
+    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,17 +52,11 @@ public class UserLoginActivity extends AppCompatActivity {
         email_login = findViewById(R.id.UserLoginEmail);
         pass_login = findViewById(R.id.UserLoginPasswd);
         loginbtn = findViewById(R.id.Userloginbtn);
-        google_login = findViewById(R.id.Usergooglesignin);
         progressDialog = new ProgressDialog(this);
         reg = findViewById(R.id.Userregtv);
+        otp = findViewById(R.id.Userotplogin);
         mAuth = FirebaseAuth.getInstance();
         forpass = findViewById(R.id.Userforgotpass);
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        if(user != null)
-//        {
-//            Intent intent = new Intent(UserLoginActivity.this,homePage.class);
-//            startActivity(intent);
-//        }
         forpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,67 +67,65 @@ public class UserLoginActivity extends AppCompatActivity {
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                authenticate_user();
-
+                if(email_login.getText().toString().isEmpty())
+                {
+                    email_login.setError("Enter valid email or phone number");
+                }
+                if(email_login.getText().toString().contains("@"))
+                {
+                    authenticate_user();
+                }
+                else{
+                    sendotp();
+                }
+            }
+        });
+        otp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendotp();
             }
         });
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserLoginActivity.this,UserRegisterActivity.class);
+                Intent intent = new Intent(UserLoginActivity.this, UserRegisterActivity.class);
                 startActivity(intent);
             }
         });
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        googleSignInClient = GoogleSignIn.getClient(this,gso);
-        google_login.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void sendotp() {
+        mCallback = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
             @Override
-            public void onClick(View view) {
-                SignIn();
-            }
-        });
-    }
-    private void SignIn() {
-        Intent intent = googleSignInClient.getSignInIntent();
-        startActivityForResult(intent, RC_SIGN_IN);
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                Log.w(TAG, "Google sign in failed", e);
+            public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
 
             }
-        }
-    }
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent i = new Intent(UserLoginActivity.this, homePage.class);
-                            startActivity(i);
-                            finish();
-                        } else {
-                            Toast.makeText(UserLoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+
+            @Override
+            public void onVerificationFailed(@NonNull FirebaseException e) {
+                loginbtn.setVisibility(View.VISIBLE);
+                Toast.makeText(UserLoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCodeSent(@NonNull String verificationId,
+                                   @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                Intent intent = new Intent(UserLoginActivity.this, UserLoginOTPActivity.class);
+                intent.putExtra("phone", email_login.getText().toString().trim());
+                intent.putExtra("verificationId", verificationId);
+                startActivity(intent);
+            }
+        };
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber("+91" + email_login.getText().toString().trim())       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallback)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
     private void authenticate_user() {
@@ -162,53 +157,6 @@ public class UserLoginActivity extends AppCompatActivity {
                                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                              //  FirebaseDatabase db = FirebaseDatabase.getInstance();
-//                                                DatabaseReference cart = db.getReference("CartPresentUser");
-//                                                DatabaseReference wish = db.getReference("WishlistPresentUser");
-//                                                DatabaseReference order = db.getReference("OrderPresentUser");
-//                                                cart.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                                    @Override
-//                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                                        for(DataSnapshot snapshot1:snapshot.getChildren())
-//                                                        {
-//                                                            cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
-//                                                        }
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                                    }
-//                                                });
-//                                                wish.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                                    @Override
-//                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                                        for(DataSnapshot snapshot1:snapshot.getChildren())
-//                                                        {
-//                                                            wish.child(snapshot1.child("parent").getValue().toString()).removeValue();
-//                                                        }
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                                    }
-//                                                });
-//                                                order.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                                    @Override
-//                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                                        for(DataSnapshot snapshot1:snapshot.getChildren())
-//                                                        {
-//                                                            order.child(snapshot1.child("parent").getValue().toString()).removeValue();
-//                                                        }
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                                    }
-//                                                });
                                                 Intent intent = new Intent(UserLoginActivity.this, homePage.class);
                                                 startActivity(intent);
                                             }
