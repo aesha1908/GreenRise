@@ -109,7 +109,10 @@ public class SellerRegisterActivity extends AppCompatActivity {
                 } else if (TextUtils.isEmpty(upiid)) {
                     email_var.setError("Enter Proper UPI ID!");
                 }
-                sendotp();
+                else{
+                    sendotp();
+                }
+
             }
 
         });
