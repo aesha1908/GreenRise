@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -18,12 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.mlkit.nl.translate.Translator;
 
 import java.util.ArrayList;
 
 
 public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHolder> {
-
+  private Translator translator;
     public myadapter(@NonNull FirebaseRecyclerOptions<Model> options) {
         super(options);
     }
@@ -35,6 +37,8 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
         holder.ib12.setVisibility(View.GONE);
         holder.quantityInCart.setVisibility(View.GONE);
         holder.nametext.setText(model.getName());
+        String n1=model.getName();
+
         holder.price.setText("Rs."+String.valueOf(model.getPrice()));
         if(Integer.parseInt(model.getQuantity())>0) {
             holder.quantity.setText("Available");

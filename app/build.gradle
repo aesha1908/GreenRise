@@ -63,6 +63,8 @@ dependencies {
     implementation 'com.orhanobut:dialogplus:1.11@aar'
     implementation 'com.google.firebase:firebase-storage:20.1.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    //Ml dependency
+    implementation 'com.google.mlkit:translate:17.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

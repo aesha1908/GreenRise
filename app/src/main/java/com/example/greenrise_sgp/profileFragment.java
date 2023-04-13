@@ -41,10 +41,6 @@ public class profileFragment extends Fragment {
     TextView name;
     ImageView uimage;
     FirebaseAuth mAuth;
-<<<<<<< HEAD
-
-=======
->>>>>>> 8d0a4e72eb67ef617fcffdf38ea1a1c59e58c3ad
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,11 +55,8 @@ public class profileFragment extends Fragment {
         infouser = view.findViewById(R.id.UInfo);
         logout = view.findViewById(R.id.Ulog);
         name = view.findViewById(R.id.Uname);
-<<<<<<< HEAD
         language = view.findViewById(R.id.languagechanger);
-=======
         language=view.findViewById(R.id.languagechanger);
->>>>>>> 8d0a4e72eb67ef617fcffdf38ea1a1c59e58c3ad
         pass = view.findViewById(R.id.Uchpw);
         uimage = view.findViewById(R.id.imageView);
         mAuth = FirebaseAuth.getInstance();
