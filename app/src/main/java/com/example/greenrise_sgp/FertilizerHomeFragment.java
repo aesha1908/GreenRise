@@ -71,7 +71,7 @@ public class FertilizerHomeFragment extends Fragment {
 
         FirebaseRecyclerOptions<Model> options =
                 new FirebaseRecyclerOptions.Builder<Model>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference("Pots"),Model.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference("Fertilizers"),Model.class)
                         .build();
         adapter=new fertilizer1Adapter(options);
         rv.setAdapter(adapter);

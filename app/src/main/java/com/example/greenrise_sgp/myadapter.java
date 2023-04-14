@@ -45,10 +45,14 @@ import java.util.HashMap;
 
 
 public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHolder>{
-  private Translator translator,translator1;
-  private boolean downloaded=false,downloaded1=false;
+  private static Translator translator;
+    private static Translator translator1;
+  private static boolean downloaded=false;
+    private static boolean downloaded1=false;
   static boolean gujarati=false,hindi=false;
-    String ret,ret1,ans;
+    static String ret;
+    static String ret1;
+    String ans;
   myViewHolder holder;
     String about,image,name,quantity,parent;
     int price;
@@ -98,6 +102,11 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
         if(gujarati)
         {
             ans=setToGujarati(s);
+            holder.nametext.setText(ans);
+        }
+        if(hindi)
+        {
+            ans=setToHindi(s);
             holder.nametext.setText(ans);
         }
         holder.price.setText("Rs."+String.valueOf(model.getPrice()));
@@ -419,15 +428,16 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
        return  ret1;
 
     }
+
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
 
             case 121:
-                 gujarati=true;
+                gujarati = true;
                 return true;
             case 122:
-                hindi=true;
+                hindi = true;
+                setToGujarati("hello");
                 return true;
             default:
                 return false;
@@ -435,4 +445,7 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
         }
 
     }
-}
+
+    }
+
+
