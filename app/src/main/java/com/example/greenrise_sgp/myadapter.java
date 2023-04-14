@@ -53,13 +53,13 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
     static String ret;
     static String ret1;
     String ans;
-  myViewHolder holder;
+  static myViewHolder holder;
     String about,image,name,quantity,parent;
     int price;
     SimpleDateFormat currentTime;
     SimpleDateFormat currentDate;
     int m=0,k=0;
-  Model model;
+  static Model model;
     public myadapter(@NonNull FirebaseRecyclerOptions<Model> options) {
         super(options);
     }
@@ -76,6 +76,8 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
         quantity=model.getQuantity();
         price=model.getPrice();
         String s=model.getName();
+        this.holder=holder;
+        this.model=model;
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference plant =  db.getReference("Plants");
         plant.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -99,16 +101,16 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
 
             }
         });
-        if(gujarati)
-        {
-            ans=setToGujarati(s);
-            holder.nametext.setText(ans);
-        }
-        if(hindi)
-        {
-            ans=setToHindi(s);
-            holder.nametext.setText(ans);
-        }
+//        if(gujarati)
+//        {
+//            ans=setToGujarati(s);
+//            holder.nametext.setText(ans);
+//        }
+//        if(hindi)
+//        {
+//            ans=setToHindi(s);
+//            holder.nametext.setText(ans);
+//        }
         holder.price.setText("Rs."+String.valueOf(model.getPrice()));
         if(Integer.parseInt(model.getQuantity())>0) {
             holder.quantity.setText("Available");
@@ -342,10 +344,10 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
 //            ib11=itemView.findViewById(R.id.addInside);
 //            ib12=itemView.findViewById(R.id.subInside);
           //  quantityInCart=itemView.findViewById(R.id.quantityText);
-            nametext.setOnCreateContextMenuListener(this::onCreateContextMenu);
+            nametext.setOnCreateContextMenuListener(this::onCreateContextMenu1);
 
         }
-       public void onCreateContextMenu(ContextMenu contextMenu,View v,ContextMenu.ContextMenuInfo menuInfo)
+       public void onCreateContextMenu1(ContextMenu contextMenu,View v,ContextMenu.ContextMenuInfo menuInfo)
        {
            contextMenu.setHeaderTitle("Select Language");
            contextMenu.add(this.getAbsoluteAdapterPosition(),121,0,"Gujarati");
@@ -354,10 +356,10 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
 
 
     }
-    public String setToGujarati(String s1)
+    public static void setToGujarati()
     {
 
-      String  n1=s1;
+      String  n1=model.getName();
         TranslatorOptions translatorOptions=new TranslatorOptions.Builder().setSourceLanguage(TranslateLanguage.ENGLISH).setTargetLanguage(TranslateLanguage.GUJARATI).build();
         translator= Translation.getClient(translatorOptions);
         DownloadConditions downloadConditions=new DownloadConditions.Builder().build();
@@ -379,20 +381,23 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
             translator.translate(n1).addOnSuccessListener(new OnSuccessListener<String>() {
                 @Override
                 public void onSuccess(String s) {
-                  ret=s;
+
+                    //ret=s;
+                    holder.nametext.setText(s);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    ret= e.toString();
+                    holder.nametext.setText(e.toString());
+                    //ret= e.toString();
                 }
             });
         }
-     return ret;
+    // return ret;
     }
-    public String setToHindi(String s2)
+    public static void setToHindi()
     {
-      String  n1=s2;
+      String  n1=model.getName();
         TranslatorOptions translatorOptions=new TranslatorOptions.Builder().setSourceLanguage(TranslateLanguage.ENGLISH).setTargetLanguage(TranslateLanguage.HINDI).build();
         translator1= Translation.getClient(translatorOptions);
         DownloadConditions downloadConditions=new DownloadConditions.Builder().build();
@@ -414,38 +419,27 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
             translator1.translate(n1).addOnSuccessListener(new OnSuccessListener<String>() {
                 @Override
                 public void onSuccess(String s) {
-                  ret1=s;
+                 // ret1=s;
+                    holder.nametext.setText(s);
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    ret1=e.toString();
+
+                    //ret1=e.toString();
+                    holder.nametext.setText(e.toString());
                 }
             });
 
         }
-       return  ret1;
+
 
     }
 
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
 
-            case 121:
-                gujarati = true;
-                return true;
-            case 122:
-                hindi = true;
-                setToGujarati("hello");
-                return true;
-            default:
-                return false;
-
-        }
 
     }
 
-    }
 
 

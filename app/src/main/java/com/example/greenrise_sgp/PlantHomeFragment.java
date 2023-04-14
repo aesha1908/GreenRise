@@ -205,4 +205,19 @@ public class PlantHomeFragment extends Fragment {
         adapter.stopListening();
     }
 
+
+    public boolean onContextItemSelected1(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case 121:
+                myadapter.setToGujarati();
+                return true;
+            case 122:
+                myadapter.setToHindi();
+                return true;
+            default:
+                return false;
+
+        }
+
+    }
 }
