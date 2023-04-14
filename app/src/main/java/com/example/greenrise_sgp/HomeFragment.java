@@ -97,12 +97,46 @@ public class HomeFragment extends Fragment {
                 });
                if(currentTab==0)
                 PlantHomeFragment.processSearch(query);
+               else if(currentTab==1)
+               FertilizerHomeFragment.processSearch(query);
+               else if(currentTab==2)
+               FlowerFragmnet.processSearch(query);
+               else if(currentTab==3)
+                   PotHomeFragment.processSearch(query);
+               else if(currentTab==4)
+                   PebblesHomeFragment.processSearch(query);
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                PlantHomeFragment.processSearch(newText);
+            public boolean onQueryTextChange(String query) {
+
+                    navTab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                        @Override
+                        public void onTabSelected(TabLayout.Tab tab) {
+                            currentTab=tab.getPosition();
+                        }
+
+                        @Override
+                        public void onTabUnselected(TabLayout.Tab tab) {
+
+                        }
+
+                        @Override
+                        public void onTabReselected(TabLayout.Tab tab) {
+
+                        }
+                    });
+                    if(currentTab==0)
+                        PlantHomeFragment.processSearch(query);
+                    else if(currentTab==1)
+                        FertilizerHomeFragment.processSearch(query);
+                    else if(currentTab==2)
+                        FlowerFragmnet.processSearch(query);
+                    else if(currentTab==3)
+                        PotHomeFragment.processSearch(query);
+                    else if(currentTab==4)
+                        PebblesHomeFragment.processSearch(query);
                 return false;
             }
         });

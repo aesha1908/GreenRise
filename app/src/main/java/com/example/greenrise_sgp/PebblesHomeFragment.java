@@ -87,7 +87,7 @@ public class PebblesHomeFragment extends Fragment {
         potAdapter adapter;
         FirebaseRecyclerOptions<Model> options =
                 new FirebaseRecyclerOptions.Builder<Model>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference("Pots").orderByChild("name").startAt(query).endAt(query+"\uf8ff"),Model.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference("Pebbles").orderByChild("name").startAt(query).endAt(query+"\uf8ff"),Model.class)
                         .build();
         adapter=new potAdapter(options);
         adapter.startListening();
