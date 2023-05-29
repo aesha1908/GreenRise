@@ -438,7 +438,6 @@ public class myadapter extends FirebaseRecyclerAdapter<Model,myadapter.myViewHol
     }
 
 
-
     }
 
 

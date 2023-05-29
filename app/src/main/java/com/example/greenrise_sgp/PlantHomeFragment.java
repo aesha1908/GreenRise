@@ -187,7 +187,12 @@ public class PlantHomeFragment extends Fragment {
                 adapter.startListening();
                 rv.setAdapter(adapter);
                 break;
-
+            case 121:
+                myadapter.setToGujarati();
+                break;
+            case 122:
+                myadapter.setToHindi();
+                break;
         }
         return super.onContextItemSelected(item);
 
@@ -206,18 +211,11 @@ public class PlantHomeFragment extends Fragment {
     }
 
 
-    public boolean onContextItemSelected1(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case 121:
-                myadapter.setToGujarati();
-                return true;
-            case 122:
-                myadapter.setToHindi();
-                return true;
-            default:
-                return false;
-
-        }
-
-    }
+//    public boolean onContextItemSelected1(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//
+//            default:
+//                return false;
+//
+//        }
 }
